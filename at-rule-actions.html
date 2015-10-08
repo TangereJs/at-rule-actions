@@ -172,6 +172,7 @@ value = [
         this._isReady = true;
         var self = this;
         this.$.actionsHtmlContainer.addEventListener('change', function(event) {
+          event.stopPropagation();
           var target = event.target;
           var updatePath = target.getAttribute('data-update-path');
           var value = target.value;
