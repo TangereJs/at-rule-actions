@@ -3,40 +3,56 @@
 
 <head>
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-  <title>at-form-actions Demo</title>
+  <title>at-rule-actions Demo</title>
 
   <script src="../webcomponentsjs/webcomponents-lite.js"></script>
   <link rel="import" href="../polymer/polymer.html" />
+  <link rel="import" href="../layout/layout.html">
   <link rel="import" href="at-rule-actions.html" />
+
+  <style media="screen">
+    .textarea {
+      min-height: 300px;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
 </head>
 
 <body>
-  <div>
-    <h2>Actions Demo - static schema</h2>
-    <at-rule-actions id="afActions1">
-    </at-rule-actions>
-    <div>
-      <h3>Actions value echo:</h3>
-      <div id="actionsValueEcho1"></div>
+  <div class="vertical layout">
+    <div class="horizontal layout">
+      <div class="vertical layout flex-8">
+        <h2>Actions Demo - static schema</h2>
+        <at-rule-actions id="afActions1"></at-rule-actions>
+      </div>
+      <div class="vertical layout flex-4">
+        <h3>Actions value echo:</h3>
+        <textarea disabled class="textarea" id="actionsValueEcho1"></textarea>
+      </div>
     </div>
-  </div>
-  <div>
-    <h2>Actions Demo - json schema</h2>
-    <at-rule-actions id="afActions2">
-    </at-rule-actions>
-    <div>
-      <h3>Actions value echo:</h3>
-      <div id="actionsValueEcho2"></div>
+
+    <div class="horizontal layout">
+      <div class="vertical layout flex-8">
+        <h2>Actions Demo - json schema</h2>
+        <at-rule-actions id="afActions2"></at-rule-actions>
+      </div>
+      <div class="vertical layout flex-4">
+        <h3>Actions value echo:</h3>
+        <textarea class="textarea" disabled id="actionsValueEcho2"></textarea>
+      </div>
     </div>
-  </div>
-  <div>
-    <h2>Actions Demo - static schema disabled</h2>
-    <at-rule-actions id="afActions3" disabled>
-    </at-rule-actions>
-    <div>
-      <h3>Actions value echo:</h3>
-      <div id="actionsValueEcho3"></div>
+    <div class="horizontal layout">
+      <div class="vertical layout flex-8">
+        <h2>Actions Demo - static schema disabled</h2>
+        <at-rule-actions id="afActions3" disabled></at-rule-actions>
+      </div>
+      <div class="vertical layout flex-4">
+        <h3>Actions value echo:</h3>
+        <textarea class="textarea" disabled id="actionsValueEcho3"></textarea>
+      </div>
     </div>
+
   </div>
   <script>
     document.addEventListener('WebComponentsReady', function() {
@@ -55,68 +71,36 @@
         name: "enemy3"
       }, ];
 
-      var config = [{
-        label: "Show Alert",
-        name: "alert",
-        fields: [{
-          label: "Message",
-          name: "message",
-          fieldType: "textarea"
-        }]
-      }, {
-        label: "Update Field",
-        name: "updateField",
-        fields: [{
-          label: "Field",
-          name: "fieldId",
-          fieldType: "select",
-          options: [{
+      var config = {
+        alert: {
+          label: "Show Alert"
+        },
+        updateField: {
+          label: "Update Field",
+          fields: [{
             label: "Damage to",
             name: "damageField",
-            fields: [{
-              label: "New Value",
-              name: "newValue",
-              fieldType: "text"
-            }]
+            updateTo: "text"
           }, {
             label: "Health to",
             name: "healthField",
-            fields: [{
-              label: "New Value",
-              name: "newValue",
-              fieldType: "text"
-            }]
+            updateTo: "text"
           }, {
             label: "Enemy to",
             name: "enemyField",
-            fields: [{
-              label: "New Value",
-              name: "newValue",
-              fieldType: "select",
-              options: enemyOptions
-            }]
+            updateTo: "values",
+            values: enemyOptions
           }]
-        }, ]
-      }];
+        }
+      };
 
       var value = [{
-        name: "action-select",
-        value: "alert",
-        fields: [{
-          name: "message",
-          value: "You have been ... !"
-        }]
+        actionName: "alert",
+        message: "You have been ... !"
       }, {
-        name: "action-select",
-        value: "updateField",
-        fields: [{
-          name: "fieldId",
-          value: "enemyField",
-          fields: [{
-            name: "newValue",
-            value: "enemy3"
-          }]
-        }]
+        actionName: "updateField",
+        fieldName: "enemyField",
+        updateTo: "enemy3"
       }];
 
       var actionsValueEcho1 = document.getElementById('actionsValueEcho1');
@@ -124,9 +108,10 @@
       afActions1.config = config;
       afActions1.value = value;
 
+      actionsValueEcho1.value = JSON.stringify(afActions1.value, undefined, ' ');
       afActions1.addEventListener('value-changed', function(event) {
-        var jsonValue = JSON.stringify(event.detail);
-        actionsValueEcho1.textContent = jsonValue;
+        var jsonValue = JSON.stringify(event.detail, undefined, ' ');
+        actionsValueEcho1.value = jsonValue;
       });
 
       var jsonSchema = {
@@ -173,9 +158,10 @@
       var afActions2 = document.getElementById('afActions2');
       afActions2.schema = jsonSchema;
 
+      actionsValueEcho2.value = JSON.stringify(afActions2.value, undefined, ' ');
       afActions2.addEventListener('value-changed', function(event) {
-        var jsonValue = JSON.stringify(event.detail);
-        actionsValueEcho2.textContent = jsonValue;
+        var jsonValue = JSON.stringify(event.detail, undefined, ' ');
+        actionsValueEcho2.value = jsonValue;
       });
 
 
@@ -184,8 +170,9 @@
       afActions3.config = config;
       afActions3.value = value;
 
+      actionsValueEcho3.value = JSON.stringify(afActions3.value, undefined, ' ');
       afActions3.addEventListener('value-changed', function(event) {
-        var jsonValue = JSON.stringify(event.detail);
+        var jsonValue = JSON.stringify(event.detail, undefined, ' ');
         actionsValueEcho3.textContent = jsonValue;
       });
     });
