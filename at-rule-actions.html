@@ -429,8 +429,8 @@ value = [
         if (result === "string" && propDef.hasOwnProperty('xtype') && propDef.xtype !== "") {
           result = propDef.xtype;
           if (result.indexOf('-') != -1) {
-            indexOfDash = type.indexOf('-');
-            result = type.slice(0, indexOfDash);
+            var indexOfDash = result.indexOf('-');
+            result = result.slice(0, indexOfDash);
           }
         }
 
@@ -589,7 +589,7 @@ value = [
           }
         }
       },
-      updateDataUpdatePathAttr(element, oldPath, newPath) {
+      updateDataUpdatePathAttr: function(element, oldPath, newPath) {
         var updatePath = element.getAttribute('data-update-path');
         updatePath = updatePath.replace(oldPath, newPath);
         Polymer.dom(element).setAttribute('data-update-path', updatePath);
