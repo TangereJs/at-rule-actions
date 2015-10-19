@@ -91,6 +91,7 @@ value = [
   }
 ];
 -->
+<link rel="import" href="../at-core-theme/at-core-theme.html" />
 <dom-module id="at-rule-actions">
   <style>
     #actionsHtmlContainer {
@@ -129,9 +130,16 @@ value = [
       vertical-align: top;
       height: 50px;
     }
+
+    .hide-label {
+      display: none;
+    }
   </style>
   <template>
-    <h4>Do these actions...</h4>
+    <at-core-theme></at-core-theme>
+    <div id="labelContainer">
+      <h4>{{label}}</h4>
+    </div>
     <div id="actionsHtmlContainer"></div>
   </template>
   <script>
@@ -164,10 +172,22 @@ value = [
           type: Boolean,
           value: false,
           observer: 'disabledChanged'
-        }
+        },
+        label: {
+          type: String,
+          value: 'Do these actions...'
+        },
+        hideTitle: {
+          type: Boolean,
+          value: false,
+          observer: 'hideTitleChanged'
+        },
       },
       _isReady: false,
       _scopeCssViaAttr: true,
+      hideTitleChanged: function (newValue, oldValue) {
+        this.toggleClass("hide-label", newValue, this.$.labelContainer);
+      },
       ready: function() {
         this._isReady = true;
         var self = this;
