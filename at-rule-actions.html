@@ -102,31 +102,31 @@ value = [
       display: none;
     }
 
-    .action-buttons {
+    .-ara-action-buttons {
       margin: 20px 0;
     }
 
-    .action {
+    .-ara-action {
       margin: 10px 0;
     }
 
-    .action .subfields,
-    .action .subfields .field {
+    .-ara-action .-ara-subfields,
+    .-ara-action .-ara-subfields .-ara-field {
       display: inline;
     }
 
-    .action select,
-    .action input,
-    .action textarea {
+    .-ara-action select,
+    .-ara-action input,
+    .-ara-action textarea {
       margin-right: 10px;
     }
 
-    .action textarea,
-    .action input {
-      width: 250px;
+    .-ara-action textarea,
+    .-ara-action input {
+      width: 250px !important;
     }
 
-    .action textarea {
+    .-ara-action textarea {
       vertical-align: top;
       height: 50px;
     }
@@ -579,31 +579,31 @@ value = [
       },
       updatePath: function(element, oldPath, newPath) {
         Polymer.dom(element).setAttribute('data-update-path', newPath);
-        var subfields = Polymer.dom(element).querySelector('.subfields');
+        var subfields = Polymer.dom(element).querySelector('.-ara-subfields');
         Polymer.dom(subfields).setAttribute('data-update-path', newPath);
 
-        var actionSelect = Polymer.dom(element).querySelector('.action-select');
+        var actionSelect = Polymer.dom(element).querySelector('.-ara-action-select');
         this.updateDataUpdatePathAttr(actionSelect, oldPath, newPath);
 
-        var message = Polymer.dom(element).querySelector('.message');
+        var message = Polymer.dom(element).querySelector('.-ara-message');
         if (message !== undefined) {
           this.updateDataUpdatePathAttr(message, oldPath, newPath);
         }
-        var fieldNameSelect = Polymer.dom(element).querySelector('.field-name');
+        var fieldNameSelect = Polymer.dom(element).querySelector('.-ara-field-name');
         if (fieldNameSelect !== undefined) {
           this.updateDataUpdatePathAttr(fieldNameSelect, oldPath, newPath);
 
-          var updateTo = Polymer.dom(element).querySelector('.update-to');
+          var updateTo = Polymer.dom(element).querySelector('.-ara-update-to');
           if (updateTo !== undefined) {
             this.updateDataUpdatePathAttr(updateTo, oldPath, newPath)
           }
 
-          var copyTo = Polymer.dom(element).querySelector('.copy-to');
+          var copyTo = Polymer.dom(element).querySelector('.-ara-copy-to');
           if (copyTo !== undefined) {
             this.updateDataUpdatePathAttr(copyTo, oldPath, newPath)
           }
 
-          var state = Polymer.dom(element).querySelector('.state');
+          var state = Polymer.dom(element).querySelector('.-ara-state');
           if (state !== undefined) {
             this.updateDataUpdatePathAttr(state, oldPath, newPath)
           }
@@ -619,7 +619,7 @@ value = [
         // build the container for the actions
         var actionsContainer = document.createElement('div');
         Polymer.dom(htmlContainer).appendChild(actionsContainer);
-        Polymer.dom(actionsContainer).classList.add('actions');
+        Polymer.dom(actionsContainer).classList.add('-ara-actions');
 
         var i, actionData, actionConfig, length = data.length,
           path;
@@ -632,11 +632,10 @@ value = [
         // build the container for the add action button
         var buttonContainer = document.createElement('div');
         Polymer.dom(htmlContainer).appendChild(buttonContainer);
-        Polymer.dom(buttonContainer).classList.add('action-buttons');
+        Polymer.dom(buttonContainer).classList.add('-ara-action-buttons');
         // create the add action button
         var addActionButton = document.createElement('button');
         Polymer.dom(addActionButton).setAttribute('type', 'button');
-        Polymer.dom(addActionButton).classList.add('add');
         Polymer.dom(addActionButton).innerHTML = "Add Action";
         Polymer.dom(buttonContainer).appendChild(addActionButton);
 
@@ -657,7 +656,7 @@ value = [
         var actionHtml = document.createElement('div');
         Polymer.dom(htmlContainer).appendChild(actionHtml);
         Polymer.dom(actionHtml).setAttribute('data-update-path', path);
-        Polymer.dom(actionHtml).classList.add('action');
+        Polymer.dom(actionHtml).classList.add('-ara-action');
 
         var actionSelect = this.createActionSelect(config, data, path);
         Polymer.dom(actionHtml).appendChild(actionSelect);
@@ -665,7 +664,7 @@ value = [
         actionSelect.addEventListener('change', function(event) {
           var _container = actionHtml;
           var _config = config;
-          var subFieldsContainer = Polymer.dom(_container).querySelector('.subfields');
+          var subFieldsContainer = Polymer.dom(_container).querySelector('.-ara-subfields');
           Polymer.dom(subFieldsContainer).innerHTML = '';
 
           var target = event.target;
@@ -687,7 +686,7 @@ value = [
         });
 
         var subFieldsContainer = document.createElement('div');
-        Polymer.dom(subFieldsContainer).classList.add('subfields');
+        Polymer.dom(subFieldsContainer).classList.add('-ara-subfields');
         Polymer.dom(subFieldsContainer).setAttribute('data-update-path', path);
         Polymer.dom(actionHtml).appendChild(subFieldsContainer);
         var actionName = actionSelect.value;
@@ -705,7 +704,6 @@ value = [
 
         var removeButton = document.createElement('button');
         Polymer.dom(removeButton).setAttribute('type', 'button');
-        Polymer.dom(removeButton).classList.add('remove');
         Polymer.dom(removeButton).innerHTML = 'Remove Action';
         Polymer.dom(actionHtml).appendChild(removeButton);
 
@@ -722,7 +720,7 @@ value = [
       },
       createActionSelect: function(config, data, path) {
         var select = document.createElement('select');
-        Polymer.dom(select).classList.add('action-select');
+        Polymer.dom(select).classList.add('-ara-action-select');
         Polymer.dom(select).setAttribute('data-update-path', this.createPath(path, 'actionName'));
 
         var actionName, actionConfig, actionLabel, selectOption;
@@ -747,14 +745,14 @@ value = [
       createAlertHtml: function(htmlContainer, data, path) {
         var textarea = document.createElement('textarea');
         Polymer.dom(textarea).setAttribute('data-update-path', this.createPath(path, 'message'));
-        Polymer.dom(textarea).classList.add('message');
+        Polymer.dom(textarea).classList.add('-ara-message');
         textarea.value = data.message;
         Polymer.dom(htmlContainer).appendChild(textarea);
       },
       createUpdateFieldHtml: function(htmlContainer, config, data, path) {
         var self = this;
         var fieldSelect = this.createFieldSelect(config.fields, data.fieldName, this.createPath(path, 'fieldName'));
-        Polymer.dom(fieldSelect).classList.add('field-name');
+        Polymer.dom(fieldSelect).classList.add('-ara-field-name');
         Polymer.dom(htmlContainer).appendChild(fieldSelect);
 
         var fieldConfig = this.findFieldConfig(config.fields, data.fieldName);
@@ -772,7 +770,7 @@ value = [
         });
       },
       createUpdateToHtml: function(htmlContainer, fieldConfig, actionData, path) {
-        var prevUpdateTo = Polymer.dom(htmlContainer).querySelector('.update-to');
+        var prevUpdateTo = Polymer.dom(htmlContainer).querySelector('.-ara-update-to');
         if (prevUpdateTo !== undefined) {
           Polymer.dom(htmlContainer).removeChild(prevUpdateTo);
         }
@@ -780,13 +778,13 @@ value = [
         if (fieldConfig.updateTo === "text") {
           var inputText = document.createElement('input');
           Polymer.dom(inputText).setAttribute('type', 'text');
-          Polymer.dom(inputText).classList.add('update-to');
+          Polymer.dom(inputText).classList.add('-ara-update-to');
           Polymer.dom(inputText).setAttribute('data-update-path', updatePath);
           inputText.value = actionData.updateTo;
           Polymer.dom(htmlContainer).appendChild(inputText);
         } else if (fieldConfig.updateTo === "values") {
           var valuesSelect = this.createFieldSelect(fieldConfig.values, actionData.updateTo, updatePath);
-          Polymer.dom(valuesSelect).classList.add('update-to');
+          Polymer.dom(valuesSelect).classList.add('-ara-update-to');
           Polymer.dom(htmlContainer).appendChild(valuesSelect);
           this.set(updatePath, valuesSelect.value, this.value);
         }
@@ -795,7 +793,7 @@ value = [
         var self = this;
 
         var fieldSelect = this.createFieldSelect(config.fields, data.fieldName, this.createPath(path, 'fieldName'));
-        Polymer.dom(fieldSelect).classList.add('field-name');
+        Polymer.dom(fieldSelect).classList.add('-ara-field-name');
         Polymer.dom(htmlContainer).appendChild(fieldSelect);
 
         fieldSelect.addEventListener('change', function(event) {
@@ -818,25 +816,25 @@ value = [
         this.createCopyToHtml(htmlContainer, selectedField, data, this.createPath(path, 'copyTo'));
       },
       createCopyToHtml: function(htmlContainer, field, data, path) {
-        var prevCopyTo = Polymer.dom(htmlContainer).querySelector('.copy-to');
+        var prevCopyTo = Polymer.dom(htmlContainer).querySelector('.-ara-copy-to');
         if (prevCopyTo !== undefined) {
           Polymer.dom(htmlContainer).removeChild(prevCopyTo);
         }
 
         var copyToSelect = this.createFieldSelect(field.copyTo, data.copyTo, path);
-        Polymer.dom(copyToSelect).classList.add('copy-to');
+        Polymer.dom(copyToSelect).classList.add('-ara-copy-to');
         Polymer.dom(htmlContainer).appendChild(copyToSelect);
         this.set(path, copyToSelect.value, this.value);
       },
       createSetFieldStateHtml: function(htmlContainer, config, data, path) {
         var fieldSelect = this.createFieldSelect(config.fields, data.fieldName, this.createPath(path, 'fieldName'));
-        Polymer.dom(fieldSelect).classList.add('field-name');
+        Polymer.dom(fieldSelect).classList.add('-ara-field-name');
         Polymer.dom(htmlContainer).appendChild(fieldSelect);
 
         var fieldName = data.fieldName;
         var selectedField = this.findFieldConfig(config.fields, fieldName);
         var stateSelect = this.createFieldSelect(selectedField.states, data.state, this.createPath(path, 'state'));
-        Polymer.dom(stateSelect).classList.add('state');
+        Polymer.dom(stateSelect).classList.add('-ara-state');
         Polymer.dom(htmlContainer).appendChild(stateSelect);
       },
       createFieldSelect: function(fields, fieldName, path) {
