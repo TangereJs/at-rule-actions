@@ -368,6 +368,7 @@ value = [
         var
           properties = schema.properties,
           propName,
+          propTitle,
           propDef,
           updateFieldOption,
           copyFieldValueOption,
@@ -378,6 +379,7 @@ value = [
         for (propName in properties) {
           propDef = properties[propName];
           propType = this.getPropertyType(propDef);
+          propTitle = propDef.title ? propDef.title : capitalize(propName);
 
           switch (propType) {
             case "string":
@@ -394,14 +396,14 @@ value = [
                   });
                 }
                 updateFieldOption = {
-                  label: this.capitalize(propName + " to"),
+                  label: this.capitalize(propTitle + " to"),
                   name: propName,
                   updateTo: "values",
                   values: updateFieldOptions
                 };
               } else {
                 updateFieldOption = {
-                  label: this.capitalize(propName + " to"),
+                  label: this.capitalize(propTitle + " to"),
                   name: propName,
                   updateTo: "text"
                 };
@@ -419,7 +421,7 @@ value = [
               }];
 
               updateFieldOption = {
-                label: this.capitalize(propName + " to"),
+                label: this.capitalize(propTitle + " to"),
                 name: propName,
                 updateTo: "values",
                 values: booleanOptions
@@ -444,7 +446,7 @@ value = [
               }
 
               updateFieldOption = {
-                label: this.capitalize(propName + " to"),
+                label: this.capitalize(propTitle + " to"),
                 name: propName,
                 updateTo: "values",
                 values: condConfOptions
@@ -463,7 +465,7 @@ value = [
 
           // any field type can have its state set
           setFieldStateOption = {
-            label: this.capitalize(propName),
+            label: propTitle,
             name: propName,
             states: stateOptions
           };
@@ -514,15 +516,20 @@ value = [
 
         var
           property,
+          propertyTitle,
           condConf = properties[propName];
+        if (condConf.title) {
+          result.label = condConf.title;
+        }
 
         for (property in properties) {
           if (propName !== property) { // if names are different
             var propertyConf = properties[property];
             var isTarget = this.isCopyTarget(condConf, propertyConf);
             if (isTarget) {
+              propertyTitle = propertyConf.title ? propertyConf.title : capitalize(property);
               result.copyTo.push({
-                label: this.capitalize(property),
+                label: propertyTitle,
                 name: property
               });
             }
