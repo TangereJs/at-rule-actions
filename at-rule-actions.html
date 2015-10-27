@@ -121,9 +121,42 @@ value = [
       margin-right: 10px;
     }
 
-    .-ara-action textarea,
+    .-ara-action textarea {
+      width: 350px !important;
+      font-family: 'Segoe UI', 'Segoe WP', 'Roboto', 'Frutiger', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      margin-right: 10px;
+      outline: none;
+      -webkit-appearance: none;
+      -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+      line-height: 1.2142em;
+      padding: 0.67861em 1em;
+      font-size: 1em;
+      background: #ffffff;
+      border: 1px solid rgba(39, 41, 43, 0.15);
+      color: #212121;
+      border-radius: 2px;
+      box-shadow: 0em 0em 0em 0em transparent inset;
+      -webkit-transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
     .-ara-action input {
       width: 250px !important;
+      font-family: 'Segoe UI', 'Segoe WP', 'Roboto', 'Frutiger', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      margin-right: 10px;
+      outline: none;
+      -webkit-appearance: none;
+      -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+      line-height: 1.2142em;
+      padding: 0.67861em 1em;
+      font-size: 1em;
+      background: #ffffff;
+      border: 1px solid rgba(39, 41, 43, 0.15);
+      color: #212121;
+      border-radius: 2px;
+      box-shadow: 0em 0em 0em 0em transparent inset;
+      -webkit-transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     }
 
     .-ara-action textarea {
@@ -185,7 +218,7 @@ value = [
       },
       _isReady: false,
       _scopeCssViaAttr: true,
-      hideTitleChanged: function (newValue, oldValue) {
+      hideTitleChanged: function(newValue, oldValue) {
         this.toggleClass("hide-label", newValue, this.$.labelContainer);
       },
       ready: function() {
@@ -569,13 +602,15 @@ value = [
 
         for (i = removeIndex + 1; i < length; i += 1) {
           var oldPath = (i).toString();
-          var newPath = (i-1).toString();
+          var newPath = (i - 1).toString();
           var selector = '[data-update-path=\'' + oldPath + '\']';
           var element = Polymer.dom(this.$.actionsHtmlContainer).querySelector(selector);
           this.updatePath(element, oldPath, newPath);
         }
 
-        this.fire('value-changed', { value: this.value });
+        this.fire('value-changed', {
+          value: this.value
+        });
       },
       updatePath: function(element, oldPath, newPath) {
         Polymer.dom(element).setAttribute('data-update-path', newPath);
@@ -704,7 +739,7 @@ value = [
 
         var removeButton = document.createElement('button');
         Polymer.dom(removeButton).setAttribute('type', 'button');
-        Polymer.dom(removeButton).innerHTML = 'Remove Action';
+        Polymer.dom(removeButton).innerHTML = 'Remove';
         Polymer.dom(actionHtml).appendChild(removeButton);
 
         removeButton.addEventListener('click', function(event) {
