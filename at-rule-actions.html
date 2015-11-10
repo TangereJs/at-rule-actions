@@ -527,7 +527,7 @@ value = [
             var propertyConf = properties[property];
             var isTarget = this.isCopyTarget(condConf, propertyConf);
             if (isTarget) {
-              propertyTitle = propertyConf.title ? propertyConf.title : capitalize(property);
+              propertyTitle = propertyConf.title ? propertyConf.title : this.capitalize(property);
               result.copyTo.push({
                 label: propertyTitle,
                 name: property
