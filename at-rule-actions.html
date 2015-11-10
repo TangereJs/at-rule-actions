@@ -379,7 +379,7 @@ value = [
         for (propName in properties) {
           propDef = properties[propName];
           propType = this.getPropertyType(propDef);
-          propTitle = propDef.title ? propDef.title : capitalize(propName);
+          propTitle = propDef.title ? propDef.title : this.capitalize(propName);
 
           switch (propType) {
             case "string":
