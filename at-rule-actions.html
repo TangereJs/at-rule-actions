@@ -210,15 +210,15 @@ value = [
           type: String,
           value: 'Do these actions...'
         },
-        hideTitle: {
+        hideLabel: {
           type: Boolean,
           value: false,
-          observer: 'hideTitleChanged'
+          observer: 'hideLabelChanged'
         },
       },
       _isReady: false,
       _scopeCssViaAttr: true,
-      hideTitleChanged: function(newValue, oldValue) {
+      hideLabelChanged: function(newValue, oldValue) {
         this.toggleClass("hide-label", newValue, this.$.labelContainer);
       },
       ready: function() {
