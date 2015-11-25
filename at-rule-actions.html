@@ -434,14 +434,18 @@ value = [
                 condConfOptions = propDef.options
               } else if (propDef.xvaluelist) {
                 condConfOptions = [];
-                var valueListItems = propDef.xvaluelist.split(',');
-                for (var vlItemsIndex = 0; vlItemsIndex < valueListItems.length; vlItemsIndex += 1) {
-                  var trimmedValue = valueListItems[vlItemsIndex].trim();
-                  var ccOption = {
-                    label: trimmedValue,
-                    name: trimmedValue
-                  };
-                  condConfOptions.push(ccOption);
+                if (this.isArray(propDef.xvaluelist)) {
+                  condConfOptions = propDef.xvaluelist;
+                } else {
+                  var valueListItems = propDef.xvaluelist.split(',');
+                  for (var vlItemsIndex = 0; vlItemsIndex < valueListItems.length; vlItemsIndex += 1) {
+                    var trimmedValue = valueListItems[vlItemsIndex].trim();
+                    var ccOption = {
+                      label: trimmedValue,
+                      name: trimmedValue
+                    };
+                    condConfOptions.push(ccOption);
+                  }
                 }
               }
 
@@ -494,6 +498,9 @@ value = [
         }
 
         return result;
+      },
+      isArray:function (obj) {
+        return Object.prototype.toString.call(obj) === "[object Array]";
       },
 
       // ------------------------------
