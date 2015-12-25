@@ -385,6 +385,7 @@ value = [
             case "string":
             case "number":
             case "lookup":
+            case "textarea":
               if (properties[propName].xtype === "enum" && properties[propName].xvaluelist !== undefined) {
                 var updateFieldOptions = [];
                 var valueList = properties[propName].xvaluelist.split(',');
