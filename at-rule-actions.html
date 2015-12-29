@@ -448,6 +448,19 @@ value = [
                     condConfOptions.push(ccOption);
                   }
                 }
+              } else if (propDef.enum) {
+                // enum is an array of strings
+                condConfOptions = [];
+                var eIndex; var eLen = propDef.enum.length;
+                for (var eIndex = 0; eIndex < eLen; eIndex++) {
+                  var eValue = propDef.enum[eIndex];
+                  var eTrimValue = eValue.trim();
+                  var eOption = {
+                    label: eTrimValue,
+                    name: eTrimValue
+                  };
+                  condConfOptions.push(eOption);
+                }
               }
 
               updateFieldOption = {
