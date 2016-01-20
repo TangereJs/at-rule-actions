@@ -1,5 +1,6 @@
 {
   "name": "at-rule-actions",
+  "version": "0.0.1.5",
   "private": true,
   "dependencies": {
     "polymer": "Polymer/polymer#0.8-preview",
