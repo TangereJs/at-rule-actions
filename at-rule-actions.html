@@ -707,7 +707,7 @@ value = [
           var _config = config
           var newAction = {
             actionName: 'alert',
-            message: 'Type your message here...'
+            message: ''
           };
           var path = (self.value.length).toString();
           self.buildActionHtml(_container, _config, newAction, path);
@@ -945,7 +945,7 @@ value = [
           field = actionConfig.fields ? actionConfig.fields[0] : {};
 
         if (actionName === 'alert') {
-          result.message = 'Type your message here...';
+          result.message = '';
         } else if (actionName === 'updateField') {
           result.fieldName = field.name;
           result.updateTo = '';
