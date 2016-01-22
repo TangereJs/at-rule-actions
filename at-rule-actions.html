@@ -117,7 +117,8 @@ value = [
 
     .-ara-action select,
     .-ara-action input,
-    .-ara-action textarea {
+    .-ara-action textarea,
+    .-ara-action .span-text {
       margin-right: 10px;
     }
 
@@ -362,24 +363,33 @@ value = [
           setFieldState: {
             label: "Set Field State",
             fields: []
+          },
+          setFieldError: {
+            label: "Set Field Error",
+            fields: []
           }
         };
 
-        var
-          properties = schema.properties,
-          propName,
-          propTitle,
-          propDef,
-          updateFieldOption,
-          copyFieldValueOption,
-          setFieldStateOption,
-          propType,
-          value;
+        var properties = schema.properties;
+        var propName;
+        var propTitle;
+        var propDef;
+        var updateFieldOption;
+        var setFieldStateOption;
+        var copyFieldValueOption;
+        var setFieldErrorOption;
+        var propType;
+        var value;
 
         for (propName in properties) {
           propDef = properties[propName];
           propType = this.getPropertyType(propDef);
           propTitle = propDef.title ? propDef.title : this.capitalize(propName);
+
+          setFieldErrorOption = {
+            label: this.capitalize(propTitle),
+            name: propName
+          }
 
           switch (propType) {
             case "string":
@@ -409,7 +419,6 @@ value = [
                   updateTo: "text"
                 };
               }
-
               break;
             case "bool":
             case "boolean":
@@ -451,7 +460,8 @@ value = [
               } else if (propDef.enum) {
                 // enum is an array of strings
                 condConfOptions = [];
-                var eIndex; var eLen = propDef.enum.length;
+                var eIndex;
+                var eLen = propDef.enum.length;
                 for (var eIndex = 0; eIndex < eLen; eIndex++) {
                   var eValue = propDef.enum[eIndex];
                   var eTrimValue = eValue.trim();
@@ -489,6 +499,7 @@ value = [
           };
 
           result.setFieldState.fields.push(setFieldStateOption);
+          result.setFieldError.fields.push(setFieldErrorOption);
         }
         return result;
       },
@@ -513,7 +524,7 @@ value = [
 
         return result;
       },
-      isArray:function (obj) {
+      isArray: function(obj) {
         return Object.prototype.toString.call(obj) === "[object Array]";
       },
 
@@ -745,6 +756,8 @@ value = [
             self.createCopyFieldValueHtml(subFieldsContainer, actionConfig, data, path);
           } else if (actionName === 'setFieldState') {
             self.createSetFieldStateHtml(subFieldsContainer, actionConfig, data, path);
+          } else if (actionName === 'setFieldError') {
+            self.createSetFieldErrorHtml(subFieldsContainer, actionConfig, data, path);
           }
         });
 
@@ -763,6 +776,8 @@ value = [
           this.createCopyFieldValueHtml(subFieldsContainer, actionConfig, data, path);
         } else if (actionName === 'setFieldState') {
           this.createSetFieldStateHtml(subFieldsContainer, actionConfig, data, path);
+        } else if (actionName === 'setFieldError') {
+          this.createSetFieldErrorHtml(subFieldsContainer, actionConfig, data, path);
         }
 
         var removeButton = document.createElement('button');
@@ -914,6 +929,22 @@ value = [
 
         return fieldsSelect;
       },
+      createSetFieldErrorHtml: function(htmlContainer, config, data, path) {
+        var textarea = document.createElement('textarea');
+        Polymer.dom(textarea).setAttribute('data-update-path', this.createPath(path, 'errorMessage'));
+        Polymer.dom(textarea).classList.add('-ara-errormessage');
+        textarea.value = data.errorMessage;
+        Polymer.dom(htmlContainer).appendChild(textarea);
+
+        var spanText = document.createElement('span');
+        Polymer.dom(spanText).innerHTML = 'on';
+        Polymer.dom(spanText).classList.add('span-text');
+        Polymer.dom(htmlContainer).appendChild(spanText);
+
+        var fieldSelect = this.createFieldSelect(config.fields, data.fieldName, this.createPath(path, 'fieldName'));
+        Polymer.dom(fieldSelect).classList.add('-ara-field-name');
+        Polymer.dom(htmlContainer).appendChild(fieldSelect);
+      },
       createPath: function(previousPath, step) {
         var result = '';
         if (previousPath === '') {
@@ -958,6 +989,9 @@ value = [
         } else if (actionName === 'setFieldState') {
           result.fieldName = field.name;
           result.state = field.states[0].name;
+        } else if (actionName === 'setFieldError') {
+          result.fieldName = field.name;
+          result.errorMessage = '';
         }
 
         return result;
