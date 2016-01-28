@@ -849,7 +849,7 @@ value = [
       },
       createUpdateToHtml: function(htmlContainer, fieldConfig, actionData, path) {
         var prevUpdateTo = Polymer.dom(htmlContainer).querySelector('.-ara-update-to');
-        if (prevUpdateTo !== undefined) {
+        if (prevUpdateTo !== null && prevUpdateTo !== undefined) {
           Polymer.dom(htmlContainer).removeChild(prevUpdateTo);
         }
         var updatePath = this.createPath(path, 'updateTo');
@@ -895,7 +895,7 @@ value = [
       },
       createCopyToHtml: function(htmlContainer, field, data, path) {
         var prevCopyTo = Polymer.dom(htmlContainer).querySelector('.-ara-copy-to');
-        if (prevCopyTo !== undefined) {
+        if (prevCopyTo !== null && prevCopyTo !== undefined) {
           Polymer.dom(htmlContainer).removeChild(prevCopyTo);
         }
 
