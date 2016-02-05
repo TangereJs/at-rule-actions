@@ -660,25 +660,25 @@ value = [
         this.updateDataUpdatePathAttr(actionSelect, oldPath, newPath);
 
         var message = Polymer.dom(element).querySelector('.-ara-message');
-        if (message !== undefined) {
+        if (message) {
           this.updateDataUpdatePathAttr(message, oldPath, newPath);
         }
         var fieldNameSelect = Polymer.dom(element).querySelector('.-ara-field-name');
-        if (fieldNameSelect !== undefined) {
+        if (fieldNameSelect) {
           this.updateDataUpdatePathAttr(fieldNameSelect, oldPath, newPath);
 
           var updateTo = Polymer.dom(element).querySelector('.-ara-update-to');
-          if (updateTo !== undefined) {
+          if (updateTo) {
             this.updateDataUpdatePathAttr(updateTo, oldPath, newPath)
           }
 
           var copyTo = Polymer.dom(element).querySelector('.-ara-copy-to');
-          if (copyTo !== undefined) {
+          if (copyTo) {
             this.updateDataUpdatePathAttr(copyTo, oldPath, newPath)
           }
 
           var state = Polymer.dom(element).querySelector('.-ara-state');
-          if (state !== undefined) {
+          if (state) {
             this.updateDataUpdatePathAttr(state, oldPath, newPath)
           }
         }
@@ -849,7 +849,7 @@ value = [
       },
       createUpdateToHtml: function(htmlContainer, fieldConfig, actionData, path) {
         var prevUpdateTo = Polymer.dom(htmlContainer).querySelector('.-ara-update-to');
-        if (prevUpdateTo !== null && prevUpdateTo !== undefined) {
+        if (prevUpdateTo) {
           Polymer.dom(htmlContainer).removeChild(prevUpdateTo);
         }
         var updatePath = this.createPath(path, 'updateTo');
@@ -895,7 +895,7 @@ value = [
       },
       createCopyToHtml: function(htmlContainer, field, data, path) {
         var prevCopyTo = Polymer.dom(htmlContainer).querySelector('.-ara-copy-to');
-        if (prevCopyTo !== null && prevCopyTo !== undefined) {
+        if (prevCopyTo) {
           Polymer.dom(htmlContainer).removeChild(prevCopyTo);
         }
 
