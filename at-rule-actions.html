@@ -353,7 +353,7 @@ value = [
             label: "Show alert"
           },
           updateField: {
-            label: "Update Field",
+            label: "Update Field Value",
             fields: []
           },
           copyFieldValue: {
@@ -394,8 +394,17 @@ value = [
           switch (propType) {
             case "string":
             case "number":
+            case "password":
             case "lookup":
             case "textarea":
+            case "code":
+            case "marked":
+            case "date":
+            case "time":
+            case "datetime":
+            case "daterange":
+            case "file":
+            case "image":
               if (properties[propName].xtype === "enum" && properties[propName].xvaluelist !== undefined) {
                 var updateFieldOptions = [];
                 var valueList = properties[propName].xvaluelist.split(',');
@@ -439,10 +448,11 @@ value = [
 
               break;
             case "enum":
+            case "radio":
               var condConfOptions;
               if (propDef.options) {
                 condConfOptions = propDef.options
-              } else if (propDef.xvaluelist) {
+              } else if (propDef.xvaluelist && propDef.xvaluelist.length > 0) {
                 condConfOptions = [];
                 if (this.isArray(propDef.xvaluelist)) {
                   condConfOptions = propDef.xvaluelist;
@@ -457,7 +467,7 @@ value = [
                     condConfOptions.push(ccOption);
                   }
                 }
-              } else if (propDef.enum) {
+              } else if (propDef.enum && propDef.enum.length > 0) {
                 // enum is an array of strings
                 condConfOptions = [];
                 var eIndex;
@@ -923,7 +933,9 @@ value = [
           field, option;
         for (i = 0; i < length; i++) {
           field = fields[i];
-          option = this.createSelectOption(field.name, field.label, field.name === fieldName);
+          var optionName = field.value || field.name;
+          var optionLabel = field.title || field.label;
+          option = this.createSelectOption(optionName, optionLabel, optionName === fieldName);
           Polymer.dom(fieldsSelect).appendChild(option);
         }
 
