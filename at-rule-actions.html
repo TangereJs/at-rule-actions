@@ -91,86 +91,95 @@ value = [
   }
 ];
 -->
-<link rel="import" href="../at-core-theme/at-core-theme.html" />
+<link rel="import" href="../at-elements/at-designer-elements.html">
+<link rel="import" href="../tangere/tangere.html">
+<link rel="import" href="../at-i18n/at-i18n-behavior.html">
+<link rel="import" href="../at-theme/at-theme.html">
+
 <dom-module id="at-rule-actions">
-  <style>
-    #actionsHtmlContainer {
-      margin: 20px 0;
-    }
-
-    #actionsHtmlContainer > .conditional > .remove {
-      display: none;
-    }
-
-    .-ara-action-buttons {
-      margin: 20px 0;
-    }
-
-    .-ara-action {
-      margin: 10px 0;
-    }
-
-    .-ara-action .-ara-subfields,
-    .-ara-action .-ara-subfields .-ara-field {
-      display: inline;
-    }
-
-    .-ara-action select,
-    .-ara-action input,
-    .-ara-action textarea,
-    .-ara-action .span-text {
-      margin-right: 10px;
-    }
-
-    .-ara-action textarea {
-      width: 350px !important;
-      font-family: 'Segoe UI', 'Segoe WP', 'Roboto', 'Frutiger', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      margin-right: 10px;
-      outline: none;
-      -webkit-appearance: none;
-      -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-      line-height: 1.2142em;
-      padding: 0.67861em 1em;
-      font-size: 1em;
-      background: #ffffff;
-      border: 1px solid rgba(39, 41, 43, 0.15);
-      color: #212121;
-      border-radius: 2px;
-      box-shadow: 0em 0em 0em 0em transparent inset;
-      -webkit-transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-      transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-    }
-
-    .-ara-action input {
-      /*width: 250px !important;*/
-      font-family: 'Segoe UI', 'Segoe WP', 'Roboto', 'Frutiger', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      margin-right: 10px;
-      outline: none;
-      -webkit-appearance: none;
-      -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-      line-height: 1.2142em;
-      /*padding: 0.67861em 1em;*/
-      font-size: 1em;
-      background: #ffffff;
-      border: 1px solid rgba(39, 41, 43, 0.15);
-      color: #212121;
-      border-radius: 2px;
-      box-shadow: 0em 0em 0em 0em transparent inset;
-      -webkit-transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-      transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-    }
-
-    .-ara-action textarea {
-      vertical-align: top;
-      height: 50px;
-    }
-
-    .hide-label {
-      display: none;
-    }
-  </style>
   <template>
-    <at-core-theme></at-core-theme>
+    <style>
+      #actionsHtmlContainer {
+        margin: 20px 0;
+      }
+
+      #actionsHtmlContainer > .conditional > .remove {
+        display: none;
+      }
+
+      .-ara-action-buttons {
+        margin: 20px 0;
+      }
+
+      .-ara-action {
+        margin: 10px 0;
+      }
+
+      .-ara-action .-ara-subfields,
+      .-ara-action .-ara-subfields .-ara-field {
+        display: inline;
+      }
+
+      .-ara-action .-ara-subfields .inline-element {
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      .-ara-action select,
+      .-ara-action input,
+      .-ara-action textarea,
+      .-ara-action .span-text {
+        margin-right: 10px;
+      }
+
+      .-ara-action textarea {
+        width: 350px !important;
+        font-family: 'Segoe UI', 'Segoe WP', 'Roboto', 'Frutiger', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        margin-right: 10px;
+        outline: none;
+        -webkit-appearance: none;
+        -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+        line-height: 1.2142em;
+        padding: 0.67861em 1em;
+        font-size: 1em;
+        background: #ffffff;
+        border: 1px solid rgba(39, 41, 43, 0.15);
+        color: #212121;
+        border-radius: 2px;
+        box-shadow: 0em 0em 0em 0em transparent inset;
+        -webkit-transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      }
+
+      .-ara-action input {
+        /*width: 250px !important;*/
+        font-family: 'Segoe UI', 'Segoe WP', 'Roboto', 'Frutiger', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        margin-right: 10px;
+        outline: none;
+        -webkit-appearance: none;
+        -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+        line-height: 1.2142em;
+        /*padding: 0.67861em 1em;*/
+        font-size: 1em;
+        background: #ffffff;
+        border: 1px solid rgba(39, 41, 43, 0.15);
+        color: #212121;
+        border-radius: 2px;
+        box-shadow: 0em 0em 0em 0em transparent inset;
+        -webkit-transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      }
+
+      .-ara-action textarea {
+        vertical-align: top;
+        height: 50px;
+      }
+
+      .hide-label {
+        display: none;
+      }
+    </style>
+
     <div id="labelContainer">
       <h4>{{label}}</h4>
     </div>
@@ -217,8 +226,6 @@ value = [
           observer: 'hideLabelChanged'
         },
       },
-      _isReady: false,
-      _scopeCssViaAttr: true,
       hideLabelChanged: function(newValue, oldValue) {
         this.toggleClass("hide-label", newValue, this.$.labelContainer);
       },
@@ -405,32 +412,17 @@ value = [
             case "daterange":
             case "file":
             case "image":
-              if (properties[propName].xtype === "enum" && properties[propName].xvaluelist !== undefined) {
-                var updateFieldOptions = [];
-                var valueList = properties[propName].xvaluelist.split(',');
-                for (value in valueList) {
-                  var trimValue = valueList[value].trim();
-                  updateFieldOptions.push({
-                    name: trimValue,
-                    label: trimValue
-                  });
-                }
-                updateFieldOption = {
-                  label: this.capitalize(propTitle + " to"),
-                  name: propName,
-                  updateTo: "values",
-                  values: updateFieldOptions
-                };
-              } else {
-                updateFieldOption = {
-                  label: this.capitalize(propTitle + " to"),
-                  name: propName,
-                  updateTo: "text"
-                };
-              }
+
+              updateFieldOption = {
+                label: this.capitalize(propTitle + " to"),
+                name: propName,
+                updateTo: "text"
+              };
+
               break;
             case "bool":
             case "boolean":
+            case "toggle":
               var booleanOptions = [{
                 name: "true",
                 label: "true"
@@ -451,7 +443,7 @@ value = [
             case "radio":
               var condConfOptions;
               if (propDef.options) {
-                condConfOptions = propDef.options
+                condConfOptions = propDef.options;
               } else if (propDef.xvaluelist && propDef.xvaluelist.length > 0) {
                 condConfOptions = [];
                 if (this.isArray(propDef.xvaluelist)) {
@@ -519,6 +511,10 @@ value = [
       // ----------------------------------------
       getPropertyType: function(propDef) {
         var result = propDef.type;
+
+        if (result === "boolean" && propDef.hasOwnProperty('xtype') && propDef.xtype !== "") {
+          result = propDef.xtype;
+        }
 
         if (result === "string" && propDef.hasOwnProperty('xtype') && propDef.xtype !== "") {
           result = propDef.xtype;
@@ -864,12 +860,139 @@ value = [
         }
         var updatePath = this.createPath(path, 'updateTo');
         if (fieldConfig.updateTo === "text") {
-          var inputText = document.createElement('input');
-          Polymer.dom(inputText).setAttribute('type', 'text');
-          Polymer.dom(inputText).classList.add('-ara-update-to');
-          Polymer.dom(inputText).setAttribute('data-update-path', updatePath);
-          inputText.value = actionData.updateTo;
-          Polymer.dom(htmlContainer).appendChild(inputText);
+          var displayType = this.getPropertyType(this.schema.properties[fieldConfig.name]);
+          switch (displayType) {
+            case "boolean":
+            case "toggle":
+              var htmlElem = document.createElement('at-form-checkbox');
+              Polymer.dom(htmlElem).classList.add('-ara-update-to');
+              Polymer.dom(htmlElem).classList.add('inline-element');
+              Polymer.dom(htmlElem).setAttribute('data-update-path', updatePath);
+              htmlElem.value = actionData.updateTo;
+              if (displayType === "toggle") {
+                htmlElem.xtype = displayType;
+              }
+              Polymer.dom(htmlContainer).appendChild(htmlElem);
+              break;
+            case "code":
+              var htmlElem = document.createElement('at-form-codemirror');
+              Polymer.dom(htmlElem).classList.add('-ara-update-to');
+              Polymer.dom(htmlElem).classList.add('inline-element');
+              Polymer.dom(htmlElem).setAttribute('data-update-path', updatePath);
+              htmlElem.value = actionData.updateTo;
+              Polymer.dom(htmlContainer).appendChild(htmlElem);
+              break;
+            case "date":
+            case "time":
+            case "datetime":
+              var htmlElem = document.createElement('at-form-date');
+              Polymer.dom(htmlElem).classList.add('-ara-update-to');
+              Polymer.dom(htmlElem).classList.add('inline-element');
+              Polymer.dom(htmlElem).setAttribute('data-update-path', updatePath);
+              htmlElem.xtype = displayType;
+              htmlElem.value = actionData.updateTo;
+              Polymer.dom(htmlContainer).appendChild(htmlElem);
+              break;
+            case "daterange":
+              var htmlElem = document.createElement('at-form-daterange');
+              Polymer.dom(htmlElem).classList.add('-ara-update-to');
+              Polymer.dom(htmlElem).classList.add('inline-element');
+              Polymer.dom(htmlElem).setAttribute('data-update-path', updatePath);
+              htmlElem.value = actionData.updateTo;
+              Polymer.dom(htmlContainer).appendChild(htmlElem);
+              break;
+            case "file":
+              var htmlElem = document.createElement('at-form-file');
+              Polymer.dom(htmlElem).classList.add('-ara-update-to');
+              Polymer.dom(htmlElem).classList.add('inline-element');
+              Polymer.dom(htmlElem).setAttribute('data-update-path', updatePath);
+              htmlElem.value = actionData.updateTo;
+              Polymer.dom(htmlContainer).appendChild(htmlElem);
+              break;
+            case "image":
+              var htmlElem = document.createElement('at-form-image');
+              Polymer.dom(htmlElem).classList.add('-ara-update-to');
+              Polymer.dom(htmlElem).classList.add('inline-element');
+              Polymer.dom(htmlElem).setAttribute('data-update-path', updatePath);
+              htmlElem.value = actionData.updateTo;
+              Polymer.dom(htmlContainer).appendChild(htmlElem);
+              break;
+            case "enum":
+              var htmlElem = document.createElement('at-form-enum');
+              Polymer.dom(htmlElem).classList.add('-ara-update-to');
+              Polymer.dom(htmlElem).classList.add('inline-element');
+              Polymer.dom(htmlElem).setAttribute('data-update-path', updatePath);
+              htmlElem.value = actionData.updateTo;
+              // fix xvaluelist
+              debugger;
+              Polymer.dom(htmlContainer).appendChild(htmlElem);
+              break;
+            case "lookup":
+              var htmlElem = document.createElement('at-form-lookup');
+              Polymer.dom(htmlElem).classList.add('-ara-update-to');
+              Polymer.dom(htmlElem).classList.add('inline-element');
+              Polymer.dom(htmlElem).setAttribute('data-update-path', updatePath);
+              htmlElem.value = actionData.updateTo;
+              Polymer.dom(htmlContainer).appendChild(htmlElem);
+              break;
+            case "marked":
+              var htmlElem = document.createElement('at-form-markdown');
+              Polymer.dom(htmlElem).classList.add('-ara-update-to');
+              Polymer.dom(htmlElem).classList.add('inline-element');
+              Polymer.dom(htmlElem).setAttribute('data-update-path', updatePath);
+              htmlElem.value = actionData.updateTo;
+              Polymer.dom(htmlContainer).appendChild(htmlElem);
+              break;
+            case "number":
+              var htmlElem = document.createElement('at-form-number');
+              Polymer.dom(htmlElem).classList.add('-ara-update-to');
+              Polymer.dom(htmlElem).classList.add('inline-element');
+              Polymer.dom(htmlElem).setAttribute('data-update-path', updatePath);
+              htmlElem.value = actionData.updateTo;
+              Polymer.dom(htmlContainer).appendChild(htmlElem);
+              break;
+            case "password":
+              var htmlElem = document.createElement('at-form-password');
+              Polymer.dom(htmlElem).classList.add('-ara-update-to');
+              Polymer.dom(htmlElem).classList.add('inline-element');
+              Polymer.dom(htmlElem).setAttribute('data-update-path', updatePath);
+              htmlElem.value = actionData.updateTo;
+              Polymer.dom(htmlContainer).appendChild(htmlElem);
+              break;
+            case "radio":
+              var htmlElem = document.createElement('at-form-radio');
+              Polymer.dom(htmlElem).classList.add('-ara-update-to');
+              Polymer.dom(htmlElem).classList.add('inline-element');
+              Polymer.dom(htmlElem).setAttribute('data-update-path', updatePath);
+              htmlElem.value = actionData.updateTo;
+              // fix xvaluelist
+              debugger;
+              Polymer.dom(htmlContainer).appendChild(htmlElem);
+              break;
+            case "string":
+              var htmlElem = document.createElement('at-form-text');
+              Polymer.dom(htmlElem).classList.add('-ara-update-to');
+              Polymer.dom(htmlElem).classList.add('inline-element');
+              Polymer.dom(htmlElem).setAttribute('data-update-path', updatePath);
+              htmlElem.value = actionData.updateTo;
+              Polymer.dom(htmlContainer).appendChild(htmlElem);
+              break;
+            case "textarea":
+              var htmlElem = document.createElement('at-form-textarea');
+              Polymer.dom(htmlElem).classList.add('-ara-update-to');
+              Polymer.dom(htmlElem).classList.add('inline-element');
+              Polymer.dom(htmlElem).setAttribute('data-update-path', updatePath);
+              htmlElem.value = actionData.updateTo;
+              Polymer.dom(htmlContainer).appendChild(htmlElem);
+              break;
+            default:
+              var inputText = document.createElement('input');
+              Polymer.dom(inputText).setAttribute('type', 'text');
+              Polymer.dom(inputText).classList.add('-ara-update-to');
+              Polymer.dom(inputText).setAttribute('data-update-path', updatePath);
+              inputText.value = actionData.updateTo;
+              Polymer.dom(htmlContainer).appendChild(inputText);
+          }
         } else if (fieldConfig.updateTo === "values") {
           var valuesSelect = this.createFieldSelect(fieldConfig.values, actionData.updateTo, updatePath);
           Polymer.dom(valuesSelect).classList.add('-ara-update-to');
