@@ -482,11 +482,19 @@ value = [
                 var eLen = propDef.enum.length;
                 for (var eIndex = 0; eIndex < eLen; eIndex++) {
                   var eValue = propDef.enum[eIndex];
-                  var eTrimValue = eValue.trim();
-                  var eOption = {
-                    label: eTrimValue,
-                    name: eTrimValue
-                  };
+                  var eOption = false;
+                  if (eValue.title && e.Value.value) {
+                    eOption = {
+                      label: evalue.title,
+                      name: eValue.value
+                    }.
+                  } else {
+                    var eTrimValue = eValue.trim();
+                    eOption = {
+                      label: eTrimValue,
+                      name: eTrimValue
+                    };
+                  }
                   condConfOptions.push(eOption);
                 }
               }
