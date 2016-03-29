@@ -237,7 +237,9 @@ value = [
         this.$.actionsHtmlContainer.addEventListener('value-changed', function(event) {
           event.stopPropagation();
           var target = event.target;
-          if (target.is !== undefined) { return; }
+          if (target.is === undefined || target.is === "") {
+            return;
+          }
           var updatePath = target.getAttribute('data-update-path');
           var value = target.value;
 
@@ -250,7 +252,9 @@ value = [
         this.$.actionsHtmlContainer.addEventListener('change', function(event) {
           event.stopPropagation();
           var target = event.target;
-          if (target.is !== undefined) { return; }
+          if (target.is !== undefined) {
+            return;
+          }
           var updatePath = target.getAttribute('data-update-path');
           var value = target.value;
 
@@ -883,152 +887,84 @@ value = [
           Polymer.dom(htmlContainer).removeChild(prevUpdateTo);
         }
         var updatePath = this.createPath(path, 'updateTo');
-        var displayType = this.getPropertyType(this.schema.properties[fieldConfig.name]);
-        var propDef = this.schema.properties[fieldConfig.name];
-        if (fieldConfig.updateTo === "text") {
+        if (this.schema.properties !== undefined) {
+          var displayType = this.getPropertyType(this.schema.properties[fieldConfig.name]);
+          var propDef = this.schema.properties[fieldConfig.name];
+
           switch (displayType) {
             case "code":
               var htmlElem = document.createElement('at-form-codemirror');
-              Polymer.dom(htmlElem).classList.add('-ara-update-to');
-              Polymer.dom(htmlElem).classList.add('inline-element');
-              Polymer.dom(htmlElem).setAttribute('data-update-path', updatePath);
-              htmlElem.value = actionData.updateTo;
-              Polymer.dom(htmlContainer).appendChild(htmlElem);
               break;
             case "date":
             case "time":
             case "datetime":
               var htmlElem = document.createElement('at-form-date');
-              Polymer.dom(htmlElem).classList.add('-ara-update-to');
-              Polymer.dom(htmlElem).classList.add('inline-element');
-              Polymer.dom(htmlElem).setAttribute('data-update-path', updatePath);
               htmlElem.xtype = displayType;
-              htmlElem.value = actionData.updateTo;
-              Polymer.dom(htmlContainer).appendChild(htmlElem);
               break;
             case "daterange":
               var htmlElem = document.createElement('at-form-daterange');
-              Polymer.dom(htmlElem).classList.add('-ara-update-to');
-              Polymer.dom(htmlElem).classList.add('inline-element');
-              Polymer.dom(htmlElem).setAttribute('data-update-path', updatePath);
-              htmlElem.value = actionData.updateTo;
-              Polymer.dom(htmlContainer).appendChild(htmlElem);
               break;
             case "file":
               var htmlElem = document.createElement('at-form-file');
-              Polymer.dom(htmlElem).classList.add('-ara-update-to');
-              Polymer.dom(htmlElem).classList.add('inline-element');
-              Polymer.dom(htmlElem).setAttribute('data-update-path', updatePath);
-              htmlElem.value = actionData.updateTo;
-              Polymer.dom(htmlContainer).appendChild(htmlElem);
               break;
             case "image":
               var htmlElem = document.createElement('at-form-image');
-              Polymer.dom(htmlElem).classList.add('-ara-update-to');
-              Polymer.dom(htmlElem).classList.add('inline-element');
-              Polymer.dom(htmlElem).setAttribute('data-update-path', updatePath);
-              htmlElem.value = actionData.updateTo;
-              Polymer.dom(htmlContainer).appendChild(htmlElem);
               break;
             case "lookup":
               var htmlElem = document.createElement('at-form-lookup');
-              Polymer.dom(htmlElem).classList.add('-ara-update-to');
-              Polymer.dom(htmlElem).classList.add('inline-element');
-              Polymer.dom(htmlElem).setAttribute('data-update-path', updatePath);
-              htmlElem.value = actionData.updateTo;
-              Polymer.dom(htmlContainer).appendChild(htmlElem);
               break;
             case "marked":
               var htmlElem = document.createElement('at-form-markdown');
-              Polymer.dom(htmlElem).classList.add('-ara-update-to');
-              Polymer.dom(htmlElem).classList.add('inline-element');
-              Polymer.dom(htmlElem).setAttribute('data-update-path', updatePath);
-              htmlElem.value = actionData.updateTo;
-              Polymer.dom(htmlContainer).appendChild(htmlElem);
               break;
             case "number":
               var htmlElem = document.createElement('at-form-number');
-              Polymer.dom(htmlElem).classList.add('-ara-update-to');
-              Polymer.dom(htmlElem).classList.add('inline-element');
-              Polymer.dom(htmlElem).setAttribute('data-update-path', updatePath);
-              htmlElem.value = actionData.updateTo;
-              Polymer.dom(htmlContainer).appendChild(htmlElem);
               break;
             case "password":
               var htmlElem = document.createElement('at-form-password');
-              Polymer.dom(htmlElem).classList.add('-ara-update-to');
-              Polymer.dom(htmlElem).classList.add('inline-element');
-              Polymer.dom(htmlElem).setAttribute('data-update-path', updatePath);
-              htmlElem.value = actionData.updateTo;
-              Polymer.dom(htmlContainer).appendChild(htmlElem);
               break;
             case "string":
               var htmlElem = document.createElement('at-form-text');
-              Polymer.dom(htmlElem).classList.add('-ara-update-to');
-              Polymer.dom(htmlElem).classList.add('inline-element');
-              Polymer.dom(htmlElem).setAttribute('data-update-path', updatePath);
-              htmlElem.value = actionData.updateTo;
-              Polymer.dom(htmlContainer).appendChild(htmlElem);
               break;
             case "textarea":
               var htmlElem = document.createElement('at-form-textarea');
-              Polymer.dom(htmlElem).classList.add('-ara-update-to');
-              Polymer.dom(htmlElem).classList.add('inline-element');
-              Polymer.dom(htmlElem).setAttribute('data-update-path', updatePath);
-              htmlElem.value = actionData.updateTo;
-              Polymer.dom(htmlContainer).appendChild(htmlElem);
               break;
-            default:
-              var inputText = document.createElement('input');
-              Polymer.dom(inputText).setAttribute('type', 'text');
-              Polymer.dom(inputText).classList.add('-ara-update-to');
-              Polymer.dom(inputText).setAttribute('data-update-path', updatePath);
-              inputText.value = actionData.updateTo;
-              Polymer.dom(htmlContainer).appendChild(inputText);
-          }
-        } else if (fieldConfig.updateTo === "values") {
-          switch (displayType) {
             case "boolean":
             case "toggle":
               var htmlElem = document.createElement('at-form-checkbox');
-              Polymer.dom(htmlElem).classList.add('-ara-update-to');
-              Polymer.dom(htmlElem).classList.add('inline-element');
-              Polymer.dom(htmlElem).setAttribute('data-update-path', updatePath);
-              htmlElem.value = actionData.updateTo;
               if (displayType === "toggle") {
                 htmlElem.xtype = displayType;
               }
-              Polymer.dom(htmlContainer).appendChild(htmlElem);
               break;
             case "enum":
               var htmlElem = document.createElement('at-form-lookup');
-              Polymer.dom(htmlElem).classList.add('-ara-update-to');
-              Polymer.dom(htmlElem).classList.add('inline-element');
-              Polymer.dom(htmlElem).setAttribute('data-update-path', updatePath);
-              htmlElem.value = actionData.updateTo;
-              // fix xvaluelist
               htmlElem.xvaluelist = propDef.xvaluelist;
-              // debugger;
-              Polymer.dom(htmlContainer).appendChild(htmlElem);
               break;
             case "radio":
               var htmlElem = document.createElement('at-form-radio');
-              Polymer.dom(htmlElem).classList.add('-ara-update-to');
-              Polymer.dom(htmlElem).classList.add('inline-element');
-              Polymer.dom(htmlElem).setAttribute('data-update-path', updatePath);
-              htmlElem.value = actionData.updateTo;
-              // fix xvaluelist
               htmlElem.xvaluelist = propDef.xvaluelist;
-              // debugger;
-              Polymer.dom(htmlContainer).appendChild(htmlElem);
               break;
-            default:
-              var valuesSelect = this.createFieldSelect(fieldConfig.values, actionData.updateTo, updatePath);
-              Polymer.dom(valuesSelect).classList.add('-ara-update-to');
-              Polymer.dom(htmlContainer).appendChild(valuesSelect);
-              this.set(updatePath, valuesSelect.value, this.value);
+          }
+          Polymer.dom(htmlElem).classList.add('-ara-update-to');
+          Polymer.dom(htmlElem).classList.add('inline-element');
+          Polymer.dom(htmlElem).setAttribute('data-update-path', updatePath);
+          htmlElem.value = actionData.updateTo;
+          Polymer.dom(htmlContainer).appendChild(htmlElem);
+        } else {
+          if (fieldConfig.updateTo === "text") {
+            var inputText = document.createElement('input');
+            Polymer.dom(inputText).setAttribute('type', 'text');
+            Polymer.dom(inputText).classList.add('-ara-update-to');
+            Polymer.dom(inputText).setAttribute('data-update-path', updatePath);
+            inputText.value = actionData.updateTo;
+            Polymer.dom(htmlContainer).appendChild(inputText);
+          } else if (fieldConfig.updateTo === "values") {
+            var valuesSelect = this.createFieldSelect(fieldConfig.values, actionData.updateTo, updatePath);
+            Polymer.dom(valuesSelect).classList.add('-ara-update-to');
+            Polymer.dom(htmlContainer).appendChild(valuesSelect);
+            this.set(updatePath, valuesSelect.value, this.value);
           }
         }
+
       },
       createCopyFieldValueHtml: function(htmlContainer, config, data, path) {
         var self = this;
