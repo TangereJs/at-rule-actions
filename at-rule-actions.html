@@ -131,6 +131,7 @@ value = [
       .-ara-action textarea,
       .-ara-action .span-text {
         margin-right: 10px;
+        min-width: 150px;
       }
 
       .-ara-action textarea {
@@ -464,7 +465,7 @@ value = [
               var condConfOptions;
               if (propDef.options) {
                 condConfOptions = propDef.options;
-              } else if (propDef.xvaluelist && propDef.xvaluelist.length > 0) {
+              } else if (propDef.xvaluelist && propDef.xvaluelist.length !== undefined) {
                 condConfOptions = [];
                 if (this.isArray(propDef.xvaluelist)) {
                   condConfOptions = propDef.xvaluelist;
@@ -479,7 +480,7 @@ value = [
                     condConfOptions.push(ccOption);
                   }
                 }
-              } else if (propDef.enum && propDef.enum.length > 0) {
+              } else if (propDef.enum && propDef.enum.length !== undefined) {
                 // enum is an array of strings
                 condConfOptions = [];
                 var eIndex;
@@ -990,6 +991,7 @@ value = [
         var fieldName = data.fieldName;
         var selectedField = this.findFieldConfig(config.fields, fieldName);
 
+        if (selectedField === undefined) { return; }
         this.createCopyToHtml(htmlContainer, selectedField, data, this.createPath(path, 'copyTo'));
       },
       createCopyToHtml: function(htmlContainer, field, data, path) {
@@ -1081,12 +1083,15 @@ value = [
         } else if (actionName === 'updateField') {
           result.fieldName = field.name;
           result.updateTo = '';
-          if (field.updateTo === 'values') {
+          if (field.updateTo === 'values' && field.values !== undefined && field.values.length > 0) {
             result.updateTo = field.values[0].name;
           }
-        } else if (actionName === 'copyFieldValue') {
+        } else if (actionName === 'copyFieldValue' && field !== undefined) {
           result.fieldName = field.name;
-          result.copyTo = field.copyTo[0].name;
+          result.copyTo = "";
+          if (field.copyTo !== undefined && field.copyTo.length > 0) {
+            result.copyTo = field.copyTo[0].name;
+          }
         } else if (actionName === 'setFieldState') {
           result.fieldName = field.name;
           result.state = field.states[0].name;
