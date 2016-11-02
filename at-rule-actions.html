@@ -235,21 +235,6 @@ value = [
         this._isReady = true;
         var self = this;
 
-        this.$.actionsHtmlContainer.addEventListener('value-changed', function(event) {
-          event.stopPropagation();
-          var target = event.target;
-          if (target.is === undefined || target.is === "") {
-            return;
-          }
-          var updatePath = target.getAttribute('data-update-path');
-          var value = target.value;
-
-          self.set(updatePath, value, self.value);
-          self.fire('value-changed', {
-            value: self.value
-          });
-        });
-
         this.$.actionsHtmlContainer.addEventListener('change', function(event) {
           event.stopPropagation();
           var target = event.target;
@@ -262,7 +247,7 @@ value = [
           self.set(updatePath, value, self.value);
           self.fire('value-changed', {
             value: self.value
-          });
+          }, { bubbles: false});
         });
       },
       schemaChanged: function(newValue, oldValue) {
@@ -950,6 +935,23 @@ value = [
           Polymer.dom(htmlElem).setAttribute('data-update-path', updatePath);
           htmlElem.value = actionData.updateTo;
           Polymer.dom(htmlContainer).appendChild(htmlElem);
+
+          var self = this;
+          htmlElem.addEventListener('value-changed', function(event) {
+            event.stopPropagation();
+            var target = event.target;
+            if (target.is === undefined || target.is === "") {
+              return;
+            }
+            var updatePath = target.getAttribute('data-update-path');
+            var value = target.value;
+
+            self.set(updatePath, value, self.value);
+            self.fire('value-changed', {
+              value: self.value
+            }, { bubbles: false});
+          });
+
         } else {
           if (fieldConfig.updateTo === "text") {
             var inputText = document.createElement('input');
