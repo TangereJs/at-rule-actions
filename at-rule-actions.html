@@ -95,97 +95,27 @@ value = [
 <link rel="import" href="../at-theme/at-theme.html">
 <link rel="import" href="../at-i18n/at-i18n-behavior.html">
 <link rel="import" href="../at-elements/at-designer-elements.html">
+<link rel="import" href="../at-carbon-icon-button/at-carbon-icon-button.html" />
+<link rel="import" href="../at-form-lookup/at-form-lookup.html" />
+<link rel="import" href="../at-form-textarea/at-form-textarea.html" />
+<link rel="import" href="at-rule-actions-styles.html" />
 
 <dom-module id="at-rule-actions">
   <template>
-    <style>
-      #actionsHtmlContainer {
-        margin: 20px 0;
+    <style include="at-rule-actions-styles">
+      :host {
+        display: block;
+        box-sizing: border-box;
       }
 
-      #actionsHtmlContainer > .conditional > .remove {
-        display: none;
-      }
-
-      .-ara-action-buttons {
-        margin: 20px 0;
-      }
-
-      .-ara-action {
-        margin: 10px 0;
-      }
-
-      .-ara-action .-ara-subfields,
-      .-ara-action .-ara-subfields .-ara-field {
-        display: inline;
-      }
-
-      .-ara-action .-ara-subfields .inline-element {
-        display: inline-block;
-        vertical-align: middle;
-        margin-right: 10px;
-      }
-
-      .-ara-action select,
-      .-ara-action input,
-      .-ara-action textarea,
-      .-ara-action .span-text {
-        margin-right: 10px;
-        min-width: 150px;
-      }
-
-      .-ara-action textarea {
-        width: 350px !important;
-        font-family: 'Segoe UI', 'Segoe WP', 'Roboto', 'Frutiger', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        margin-right: 10px;
-        outline: none;
-        -webkit-appearance: none;
-        -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-        line-height: 1.2142em;
-        padding: 0.67861em 1em;
-        font-size: 1em;
-        background: #ffffff;
-        border: 1px solid rgba(39, 41, 43, 0.15);
-        color: #212121;
-        border-radius: 2px;
-        box-shadow: 0em 0em 0em 0em transparent inset;
-        -webkit-transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-        transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-      }
-
-      .-ara-action input {
-        /*width: 250px !important;*/
-        font-family: 'Segoe UI', 'Segoe WP', 'Roboto', 'Frutiger', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        margin-right: 10px;
-        outline: none;
-        -webkit-appearance: none;
-        -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-        line-height: 1.2142em;
-        /*padding: 0.67861em 1em;*/
-        font-size: 1em;
-        background: #ffffff;
-        border: 1px solid rgba(39, 41, 43, 0.15);
-        color: #212121;
-        border-radius: 2px;
-        box-shadow: 0em 0em 0em 0em transparent inset;
-        -webkit-transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-        transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-      }
-
-      .-ara-action textarea {
-        vertical-align: top;
-        height: 50px;
-      }
-
-      .hide-label {
-        display: none;
+      .debug * {
+        border: 1px dotted violet;
       }
     </style>
-
-    <div id="labelContainer">
-      <h4>{{label}}</h4>
+    <div class="debug">
+      <h4 hidden$="[[hideLabel]]" class="actions-title">{{label}}</h4>
+      <div id="actionsHtmlContainer"></div>
     </div>
-    <div id="actionsHtmlContainer"></div>
   </template>
   <script>
     'use strict';
@@ -224,23 +154,21 @@ value = [
         },
         hideLabel: {
           type: Boolean,
-          value: false,
-          observer: 'hideLabelChanged'
+          value: false
         },
       },
-      hideLabelChanged: function(newValue, oldValue) {
-        this.toggleClass("hide-label", newValue, this.$.labelContainer);
-      },
+
       ready: function() {
         this._isReady = true;
         var self = this;
 
-        this.$.actionsHtmlContainer.addEventListener('change', function(event) {
+        this.$.actionsHtmlContainer.addEventListener('value-changed', function(event) {
           event.stopPropagation();
           var target = event.target;
-          if (target.is !== undefined) {
-            return;
-          }
+          console.log('value-changed captured');
+          // if (target.is !== undefined) {
+          //   return;
+          // }
           var updatePath = target.getAttribute('data-update-path');
           var value = target.value;
 
@@ -264,7 +192,7 @@ value = [
         this._rebuildActionsHtml();
       },
       valueChanged: function(newValue, oldValue) {
-        if (!this._isReady) {
+        if (!this._isReady || !newValue) {
           return;
         }
 
@@ -292,58 +220,23 @@ value = [
           tmp;
         var container = this.$.actionsHtmlContainer;
 
-        tmp = Polymer.dom(container).querySelectorAll('select');
-        if (tmp.length > 0) {
-          this.pushArray1IntoArray2(tmp, selectElements);
-        }
-        tmp = Polymer.dom(container).querySelectorAll('input');
-        if (tmp.length > 0) {
-          this.pushArray1IntoArray2(tmp, inputElements);
-        }
-        tmp = Polymer.dom(container).querySelectorAll('button');
-        if (tmp.length > 0) {
-          this.pushArray1IntoArray2(tmp, aElements);
-        }
-        tmp = Polymer.dom(container).querySelectorAll('textarea');
-        if (tmp.length > 0) {
-          this.pushArray1IntoArray2(tmp, textAreaElements);
-        }
+        var classNames = [ '.-ara-action-select', '.-ara-message', '.-ara-field-name', '.-ara-update-to', '.-ara-copy-to', '.-ara-state',  '.-ara-errormessage', '.span-text', 'at-carbon-icon-button' ];
 
-        if (newValue) {
-          for (selectIndex = 0; selectIndex < selectElements.length; selectIndex += 1) {
-            selectElement = selectElements[selectIndex];
-            selectElement.setAttribute('disabled', 'disabled');
-          }
-          for (inputIndex = 0; inputIndex < inputElements.length; inputIndex += 1) {
-            inputElement = inputElements[inputIndex];
-            inputElement.setAttribute('disabled', 'disabled');
-          }
-          for (aIndex = 0; aIndex < aElements.length; aIndex += 1) {
-            aElement = aElements[aIndex];
-            aElement.setAttribute('disabled', 'disabled');
-          }
-          for (textAreaIndex = 0; textAreaIndex < textAreaElements.length; textAreaIndex += 1) {
-            textAreaElement = textAreaElements[textAreaIndex];
-            textAreaElement.setAttribute('disabled', 'disabled');
-          }
-        } else {
-          for (selectIndex = 0; selectIndex < selectElements.length; selectIndex += 1) {
-            selectElement = selectElements[selectIndex];
-            selectElement.removeAttribute('disabled');
-          }
-          for (inputIndex = 0; inputIndex < inputElements.length; inputIndex += 1) {
-            inputElement = inputElements[inputIndex];
-            inputElement.removeAttribute('disabled');
-          }
-          for (aIndex = 0; aIndex < aElements.length; aIndex += 1) {
-            aElement = aElements[aIndex];
-            aElement.removeAttribute('disabled');
-          }
-          for (textAreaIndex = 0; textAreaIndex < textAreaElements.length; textAreaIndex += 1) {
-            textAreaElement = textAreaElements[textAreaIndex];
-            textAreaElement.removeAttribute('disabled');
-          }
-        }
+        classNames.forEach(function (className, index) { 
+          tmp = Polymer.dom(container).querySelectorAll(className);
+          
+          tmp.forEach(function(element, index) { 
+            element.disabled = newValue;
+
+            if (className === ".span-text") {
+              if (newValue) {
+                element.setAttribute('disabled', newValue);
+              } else {
+                element.removeAttribute('disabled', newValue);
+              }
+            }
+          });
+        });
       },
 
       schemaToConfig: function(schema) {
@@ -639,14 +532,6 @@ value = [
         return true;
       },
 
-      pushArray1IntoArray2: function(array1, array2) {
-        var
-          arr1Index;
-
-        for (arr1Index = 0; arr1Index < array1.length; arr1Index += 1) {
-          array2.push(array1[arr1Index]);
-        }
-      },
       addAction: function(actionData) {
         this.value.push(actionData);
         this.fire('value-changed', {
@@ -728,9 +613,8 @@ value = [
         Polymer.dom(htmlContainer).appendChild(buttonContainer);
         Polymer.dom(buttonContainer).classList.add('-ara-action-buttons');
         // create the add action button
-        var addActionButton = document.createElement('button');
-        Polymer.dom(addActionButton).setAttribute('type', 'button');
-        Polymer.dom(addActionButton).innerHTML = "Add Action";
+        var addActionButton = document.createElement('at-carbon-icon-button');
+        addActionButton.icon = "now:plus";        
         Polymer.dom(buttonContainer).appendChild(addActionButton);
 
         addActionButton.addEventListener('click', function(event) {
@@ -755,7 +639,7 @@ value = [
         var actionSelect = this.createActionSelect(config, data, path);
         Polymer.dom(actionHtml).appendChild(actionSelect);
 
-        actionSelect.addEventListener('change', function(event) {
+        actionSelect.addEventListener('value-changed', function(event) {
           var _container = actionHtml;
           var _config = config;
           var subFieldsContainer = Polymer.dom(_container).querySelector('.-ara-subfields');
@@ -779,6 +663,8 @@ value = [
           } else if (actionName === 'setFieldError') {
             self.createSetFieldErrorHtml(subFieldsContainer, actionConfig, data, path);
           }
+
+          self._handleFormElementValueChanged(event);
         });
 
         var subFieldsContainer = document.createElement('div');
@@ -800,13 +686,14 @@ value = [
           this.createSetFieldErrorHtml(subFieldsContainer, actionConfig, data, path);
         }
 
-        var removeButton = document.createElement('button');
-        Polymer.dom(removeButton).setAttribute('type', 'button');
-        Polymer.dom(removeButton).innerHTML = 'Remove';
+        var removeButton = document.createElement('at-carbon-icon-button');
+        removeButton.icon = "now:trash";
+        removeButton.color = "red";
+        Polymer.dom(removeButton).classList.add('remove-action')
         Polymer.dom(actionHtml).appendChild(removeButton);
 
         removeButton.addEventListener('click', function(event) {
-          var target = event.target;
+          var target = event.currentTarget;
           var actionContainer = Polymer.dom(target).parentNode;
           var updatePath = actionContainer.getAttribute('data-update-path');
           var actionsContainer = Polymer.dom(actionContainer).parentNode;
@@ -817,17 +704,18 @@ value = [
         });
       },
       createActionSelect: function(config, data, path) {
-        var select = document.createElement('select');
+        var select = document.createElement('at-form-lookup');
         Polymer.dom(select).classList.add('-ara-action-select');
         Polymer.dom(select).setAttribute('data-update-path', this.createPath(path, 'actionName'));
 
         var actionName, actionConfig, actionLabel, selectOption;
+        var xvaluelist = [];
         for (actionName in config) {
-          actionConfig = config[actionName];
-          actionLabel = actionConfig.label;
-          selectOption = this.createSelectOption(actionName, actionLabel, actionName === data.actionName);
-          Polymer.dom(select).appendChild(selectOption);
+          actionConfig = config[actionName];          
+          xvaluelist.push({ title: actionConfig.label, value: actionName });
         }
+        select.xvaluelist = xvaluelist;
+        select.value = data.actionName;
 
         return select;
       },
@@ -841,11 +729,12 @@ value = [
         return option;
       },
       createAlertHtml: function(htmlContainer, data, path) {
-        var textarea = document.createElement('textarea');
+        var textarea = document.createElement('at-form-textarea');
         Polymer.dom(textarea).setAttribute('data-update-path', this.createPath(path, 'message'));
         Polymer.dom(textarea).classList.add('-ara-message');
         textarea.value = data.message;
         Polymer.dom(htmlContainer).appendChild(textarea);
+        textarea.addEventListener('value-changed', this._handleFormElementValueChanged.bind(this));
       },
       createUpdateFieldHtml: function(htmlContainer, config, data, path) {
         var self = this;
@@ -856,7 +745,7 @@ value = [
         var fieldConfig = this.findFieldConfig(config.fields, data.fieldName);
         var updateToHtml = this.createUpdateToHtml(htmlContainer, fieldConfig, data, path);
 
-        fieldSelect.addEventListener('change', function(event) {
+        fieldSelect.addEventListener('value-changed', function(event) {
           var _config = config;
           var _container = htmlContainer;
           var target = event.target;
@@ -865,6 +754,8 @@ value = [
           var path = _container.getAttribute('data-update-path');
           var actionData = self.get(path, self.value);
           self.createUpdateToHtml(_container, fieldConfig, actionData, path);
+
+          self._handleFormElementValueChanged(event);
         });
       },
       createUpdateToHtml: function(htmlContainer, fieldConfig, actionData, path) {
@@ -937,20 +828,7 @@ value = [
           Polymer.dom(htmlContainer).appendChild(htmlElem);
 
           var self = this;
-          htmlElem.addEventListener('value-changed', function(event) {
-            event.stopPropagation();
-            var target = event.target;
-            if (target.is === undefined || target.is === "") {
-              return;
-            }
-            var updatePath = target.getAttribute('data-update-path');
-            var value = target.value;
-
-            self.set(updatePath, value, self.value);
-            self.fire('value-changed', {
-              value: self.value
-            }, { bubbles: false});
-          });
+          htmlElem.addEventListener('value-changed', this._handleFormElementValueChanged.bind(this));
 
         } else {
           if (fieldConfig.updateTo === "text") {
@@ -976,7 +854,7 @@ value = [
         Polymer.dom(fieldSelect).classList.add('-ara-field-name');
         Polymer.dom(htmlContainer).appendChild(fieldSelect);
 
-        fieldSelect.addEventListener('change', function(event) {
+        fieldSelect.addEventListener('value-changed', function(event) {
           var _config = config;
           var _container = htmlContainer;
           var path = _container.getAttribute('data-update-path');
@@ -988,6 +866,7 @@ value = [
           var data = self.get(path, self.value);
 
           self.createCopyToHtml(_container, selectedField, data, updatePath);
+          self._handleFormElementValueChanged(event);
         });
 
         var fieldName = data.fieldName;
@@ -1006,40 +885,44 @@ value = [
         Polymer.dom(copyToSelect).classList.add('-ara-copy-to');
         Polymer.dom(htmlContainer).appendChild(copyToSelect);
         this.set(path, copyToSelect.value, this.value);
+        copyToSelect.addEventListener('value-changed', this._handleFormElementValueChanged.bind(this));
       },
       createSetFieldStateHtml: function(htmlContainer, config, data, path) {
         var fieldSelect = this.createFieldSelect(config.fields, data.fieldName, this.createPath(path, 'fieldName'));
         Polymer.dom(fieldSelect).classList.add('-ara-field-name');
         Polymer.dom(htmlContainer).appendChild(fieldSelect);
+        fieldSelect.addEventListener('value-changed', this._handleFormElementValueChanged.bind(this));
 
         var fieldName = data.fieldName;
         var selectedField = this.findFieldConfig(config.fields, fieldName);
         var stateSelect = this.createFieldSelect(selectedField.states, data.state, this.createPath(path, 'state'));
         Polymer.dom(stateSelect).classList.add('-ara-state');
         Polymer.dom(htmlContainer).appendChild(stateSelect);
+        stateSelect.addEventListener('value-changed', this._handleFormElementValueChanged.bind(this));
       },
       createFieldSelect: function(fields, fieldName, path) {
-        var fieldsSelect = document.createElement('select');
+        var fieldsSelect = document.createElement('at-form-lookup');
+        Polymer.dom(fieldsSelect).classList.add('inline-element');
         Polymer.dom(fieldsSelect).setAttribute('data-update-path', path);
 
-        var i, length = fields.length,
-          field, option;
+        var i, length = fields.length, field;
+        var xvaluelist = [];
         for (i = 0; i < length; i++) {
           field = fields[i];
-          var optionName = field.value || field.name;
-          var optionLabel = field.title || field.label;
-          option = this.createSelectOption(optionName, optionLabel, optionName === fieldName);
-          Polymer.dom(fieldsSelect).appendChild(option);
+          xvaluelist.push({ title: field.title || field.label, value: field.value || field.name });
         }
+        fieldsSelect.xvaluelist = xvaluelist;
+        fieldsSelect.value = fieldName;
 
         return fieldsSelect;
       },
       createSetFieldErrorHtml: function(htmlContainer, config, data, path) {
-        var textarea = document.createElement('textarea');
+        var textarea = document.createElement('at-form-textarea');
         Polymer.dom(textarea).setAttribute('data-update-path', this.createPath(path, 'errorMessage'));
         Polymer.dom(textarea).classList.add('-ara-errormessage');
         textarea.value = data.errorMessage;
         Polymer.dom(htmlContainer).appendChild(textarea);
+        textarea.addEventListener('value-changed', this._handleFormElementValueChanged.bind(this));
 
         var spanText = document.createElement('span');
         Polymer.dom(spanText).innerHTML = 'on';
@@ -1049,7 +932,26 @@ value = [
         var fieldSelect = this.createFieldSelect(config.fields, data.fieldName, this.createPath(path, 'fieldName'));
         Polymer.dom(fieldSelect).classList.add('-ara-field-name');
         Polymer.dom(htmlContainer).appendChild(fieldSelect);
+        fieldSelect.addEventListener('value-changed', this._handleFormElementValueChanged.bind(this));
       },
+
+      _handleFormElementValueChanged: function(event) {
+        event.stopPropagation();
+        var target = event.target;
+        if (target.is === undefined || target.is === "") {
+          return;
+        }
+
+        var updatePath = target.getAttribute('data-update-path');
+        var value = target.value;
+
+        this.set(updatePath, value, this.value);
+        this.fire('value-changed', 
+          { value: this.value }, 
+          { bubbles: false}
+        );
+      },
+
       createPath: function(previousPath, step) {
         var result = '';
         if (previousPath === '') {

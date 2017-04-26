@@ -1,0 +1,84 @@
+<link rel="import" href="../tangere/tangere.html">
+
+<dom-module id="at-rule-actions-styles">
+  <template>
+    <style>
+      .actions-title {
+        @apply(--paper-font-body1);
+        font-weight: 600;
+        font-size: 18px;
+        margin: 0;
+      }
+
+      .actions-title[hidden] {
+        display: none !important;
+      }
+
+      .text {
+        @apply(--paper-font-body1);
+      }
+
+      .span-text {
+        @apply(--paper-font-body1); 
+        margin: 0 10px 0 0;
+        vertical-align: middle;
+      }
+
+      .span-text[disabled] {
+        @apply(--at-form-disabled);
+      }
+
+      .remove-action {
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      .-ara-action-select {
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0 10px 0 0;
+      }
+
+      .-ara-message {
+      }
+
+      .-ara-errormessage {
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0 10px 0 0;
+      }
+      #actionsHtmlContainer > .conditional > .remove {
+        display: none;
+      }
+
+      .-ara-action-buttons {
+        margin: 8px 0 0 0;
+      }
+
+      .-ara-action {
+        margin: 10px 0;
+      }
+
+      .-ara-action .-ara-subfields {
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0 10px 0 0; 
+      }
+
+      .-ara-message {
+        min-width: 350px;
+      }
+      
+      .-ara-action .-ara-subfields .-ara-field {
+        display: inline;
+      }
+
+      .-ara-action .-ara-subfields .inline-element {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+
+    </style>
+  </template>
+</dom-module>

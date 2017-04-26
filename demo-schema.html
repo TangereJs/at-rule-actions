@@ -7,14 +7,20 @@
 
   <script src="../webcomponentsjs/webcomponents-lite.js"></script>
   <link rel="import" href="at-rule-actions.html">
-  <link rel="import" href="../layout/layout.html">
+  <link rel="import" href="../iron-flex-layout/iron-flex-layout.html" />
 
-  <style media="screen">
+  <style is="custom-style" media="screen">
     .textarea    {
       width: 100%;
     }
     .padding {
       padding: 0 6px;
+    }
+
+    .toolbox-container {
+      @apply(--layout-horizontal);
+      @apply(--layout-center-justified);
+      margin: 0 0 10px 0;
     }
   </style>
 </head>
@@ -22,8 +28,11 @@
 <body>
   <div class="vertical layout">
     <div class="vertical layout">
-      <h2>Actions Demo - json schema</h2>
-      <at-rule-actions id="afActions"></at-rule-actions>
+      <div class="toolbox-container">
+        <button onclick="toggleDisable()">Toggle Disable</button>
+        <button onclick="toggleHideLabel()">Toggle hideLabel</button>
+      </div>
+      <at-rule-actions id="afActions" label="Actions Demo - json schema"></at-rule-actions>
     </div>
 
     <div class="horizontal layout">
@@ -131,6 +140,16 @@
         afActions.schema = schema;
       });
     });
+
+    function toggleDisable() {
+      var afActions = document.getElementById('afActions');
+      afActions.disabled = !afActions.disabled;
+    }
+
+    function toggleHideLabel() {
+      var afActions = document.getElementById('afActions');
+      afActions.hideLabel = !afActions.hideLabel;
+    }
   </script>
 </body>
 
