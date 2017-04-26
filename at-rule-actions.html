@@ -108,14 +108,9 @@ value = [
         box-sizing: border-box;
       }
 
-      .debug * {
-        border: 1px dotted violet;
-      }
     </style>
-    <div class="debug">
-      <h4 hidden$="[[hideLabel]]" class="actions-title">{{label}}</h4>
-      <div id="actionsHtmlContainer"></div>
-    </div>
+    <h4 hidden$="[[hideLabel]]" class="actions-title">{{label}}</h4>
+    <div id="actionsHtmlContainer"></div>
   </template>
   <script>
     'use strict';
