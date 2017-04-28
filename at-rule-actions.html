@@ -306,6 +306,7 @@ value = [
             case "daterange":
             case "file":
             case "image":
+            case "random":
 
               updateFieldOption = {
                 label: this.capitalize(propTitle + " to"),
@@ -823,6 +824,9 @@ value = [
               var htmlElem = document.createElement('at-form-radio');
               htmlElem.xvaluelist = propDef.xvaluelist;
               break;
+            case "random":
+              var htmlElem = document.createElement('at-form-random');              
+              break;  
           }
           Polymer.dom(htmlElem).classList.add('-ara-update-to');
           Polymer.dom(htmlElem).classList.add('inline-element');
