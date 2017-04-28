@@ -628,14 +628,18 @@ value = [
         var self = this;
         var actionHtml = document.createElement('div');
         Polymer.dom(htmlContainer).appendChild(actionHtml);
-        Polymer.dom(actionHtml).setAttribute('data-update-path', path);
         Polymer.dom(actionHtml).classList.add('-ara-action');
 
+        var leftFlexDiv = document.createElement('div');
+        Polymer.dom(leftFlexDiv).setAttribute('data-update-path', path);
+        Polymer.dom(leftFlexDiv).classList.add('left-flex-div')
+        Polymer.dom(actionHtml).appendChild(leftFlexDiv);
+
         var actionSelect = this.createActionSelect(config, data, path);
-        Polymer.dom(actionHtml).appendChild(actionSelect);
+        Polymer.dom(leftFlexDiv).appendChild(actionSelect);
 
         actionSelect.addEventListener('value-changed', function(event) {
-          var _container = actionHtml;
+          var _container = leftFlexDiv;
           var _config = config;
           var subFieldsContainer = Polymer.dom(_container).querySelector('.-ara-subfields');
           Polymer.dom(subFieldsContainer).innerHTML = '';
@@ -665,7 +669,7 @@ value = [
         var subFieldsContainer = document.createElement('div');
         Polymer.dom(subFieldsContainer).classList.add('-ara-subfields');
         Polymer.dom(subFieldsContainer).setAttribute('data-update-path', path);
-        Polymer.dom(actionHtml).appendChild(subFieldsContainer);
+        Polymer.dom(leftFlexDiv).appendChild(subFieldsContainer);
         var actionName = actionSelect.value;
         var actionConfig = config[actionName];
 
@@ -681,15 +685,19 @@ value = [
           this.createSetFieldErrorHtml(subFieldsContainer, actionConfig, data, path);
         }
 
+        var rightFlexDiv = document.createElement('div');
+        Polymer.dom(rightFlexDiv).classList.add('right-flex-div');
+        Polymer.dom(actionHtml).appendChild(rightFlexDiv);
+
         var removeButton = document.createElement('at-carbon-icon-button');
         removeButton.icon = "now:trash";
         removeButton.color = "red";
         Polymer.dom(removeButton).classList.add('remove-action')
-        Polymer.dom(actionHtml).appendChild(removeButton);
+        Polymer.dom(rightFlexDiv).appendChild(removeButton);
 
         removeButton.addEventListener('click', function(event) {
           var target = event.currentTarget;
-          var actionContainer = Polymer.dom(target).parentNode;
+          var actionContainer = Polymer.dom(target).parentNode.parentNode;
           var updatePath = actionContainer.getAttribute('data-update-path');
           var actionsContainer = Polymer.dom(actionContainer).parentNode;
 
