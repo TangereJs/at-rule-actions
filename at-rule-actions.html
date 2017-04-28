@@ -307,6 +307,7 @@ value = [
             case "file":
             case "image":
             case "random":
+            case "cron":
 
               updateFieldOption = {
                 label: this.capitalize(propTitle + " to"),
@@ -826,7 +827,10 @@ value = [
               break;
             case "random":
               var htmlElem = document.createElement('at-form-random');              
-              break;  
+              break;
+            case "cron":
+              var htmlElem = document.createElement('at-form-cron');              
+              break;              
           }
           Polymer.dom(htmlElem).classList.add('-ara-update-to');
           Polymer.dom(htmlElem).classList.add('inline-element');
