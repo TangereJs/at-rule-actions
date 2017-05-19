@@ -117,41 +117,47 @@ value = [
     Polymer({
       is: 'at-rule-actions',
       properties: {
-        schema: {
-          type: Object,
-          value: function() {
-            return {};
-          },
-          observer: 'schemaChanged'
+
+        label: {
+          type: String,
+          value: 'Do these actions...'
         },
-        config: {
-          type: Object,
-          value: function() {
-            return {};
-          },
-          observer: 'configChanged'
+
+        hideLabel: {
+          type: Boolean,
+          value: false
         },
-        value: {
-          type: Array,
-          value: function() {
-            return [];
-          },
-          observer: 'valueChanged'
-        },
+
         disabled: {
           type: Boolean,
           value: false,
           observer: 'disabledChanged'
         },
-        label: {
-          type: String,
-          value: 'Do these actions...'
+
+        schema: {
+          type: Object,
+          value: function() {
+            return {};
+          }
         },
-        hideLabel: {
-          type: Boolean,
-          value: false
+
+        config: {
+          type: Object,
+          value: function() {
+            return {};
+          }
         },
+
+        value: {
+          type: Array,
+          value: function() {
+            return [];
+          }
+        }
+        
       },
+
+      observers: [ '_handleConfigSchemaValueChanged(config, schema, value)' ],
 
       ready: function() {
         this._isReady = true;
@@ -173,31 +179,74 @@ value = [
           }, { bubbles: false});
         });
       },
-      schemaChanged: function(newValue, oldValue) {
-        if (newValue.properties) {
-          var t_config = this.schemaToConfig(newValue);
+
+      _handleConfigSchemaValueChanged: function(newConfig, newSchema, newValue) {
+        var config;
+        var schema;
+        var value;
+
+        if (!this._isReady || this._handlingInProgress) { return; }
+                        
+        function isString(obj) {
+          return Object.prototype.toString.apply(obj) === "[object String]";
+        }
+
+        // *ij* newConfig can either be an array object [] or a JSON string of an array "[]"
+        config = newConfig;
+        if (isString(newConfig)) {
+          try {
+            config = JSON.parse(newConfig);
+            this._handlingInProgress = true;
+            this.config = config;
+            this._handlingInProgress = false;
+          } catch (e) {
+            console.log(e);
+            config = null;
+          }
+        }
+
+        // newSchema can iether be an object { properties: {} } or a JSON string of an object { "properties": {} }
+        schema = newSchema;
+        if (isString(newSchema)) {
+          try {
+            schema = JSON.parse(newSchema);
+            this._handlingInProgress = true;
+            this.schema = schema;
+            this._handlingInProgress = false;
+          } catch (e) {
+            console.log(e);
+            schema = null;
+          }
+        }
+
+        if (!config && !schema) { return; }
+
+        // newValue can iether be an array [] or a JSON string of an array "[]"
+        value = newValue;
+        if (isString(newValue)) {
+          try {
+            value = JSON.parse(newValue);
+            this._handlingInProgress = true;
+            this.value = value;
+            this._handlingInProgress = false;
+          } catch (e) {
+            console.log(e);
+            schema = null;
+          }
+        }
+
+        if (newSchema.properties) {
+          var t_config = this.schemaToConfig(newSchema);
+          this._handlingInProgress = true;
           this.config = t_config;
-        }
-      },
-      configChanged: function(newValue, oldValue) {
-        if (!this._isReady) {
-          return;
+          this._handlingInProgress = false;
         }
 
-        this._rebuildActionsHtml();
-      },
-      valueChanged: function(newValue, oldValue) {
-        if (!this._isReady || !newValue) {
-          return;
-        }
-
-        this._rebuildActionsHtml();
-      },
-      _rebuildActionsHtml: function() {
         Polymer.dom(this.$.actionsHtmlContainer).innerHTML = '';
-        this.buildActionsHtml(this.$.actionsHtmlContainer, this.config, this.value);
+        this.buildActionsHtml(this.$.actionsHtmlContainer, config, value);
         this.disabledChanged(this.disabled, this.disabled);
       },
+
       disabledChanged: function(newValue, oldValue) {
         var
           selectIndex,
