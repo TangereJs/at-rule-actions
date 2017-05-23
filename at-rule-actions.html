@@ -283,10 +283,7 @@ value = [
           this._handlingInProgress = true;
           this.config = t_config;
           this._handlingInProgress = false;
-
-        } else if (isConfigValid && !isConfigEmpty(this.config)) {
-          // use config
-        } else {
+        } else if (!isConfigValid) {
           // use initial value for config
           this._handlingInProgress = true;
           this.config = this.properties.config.value();
