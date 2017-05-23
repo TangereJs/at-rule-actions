@@ -277,6 +277,10 @@ value = [
           this._handlingInProgress = false;
         }
 
+        function isSchemaEmpty(param) {
+          return Object.keys(param).length === 0;
+        }
+
         if (isSchemaValid && !isSchemaEmpty(this.schema)) {
           // use schema
           var t_config = this.schemaToConfig(newSchema);
