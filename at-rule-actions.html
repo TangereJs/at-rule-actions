@@ -152,6 +152,7 @@ value = [
 
         value: {
           type: Array,
+          xtype: 'json',
           value: function() {
             return [];
           }
@@ -283,7 +284,7 @@ value = [
 
         if (isSchemaValid && !isSchemaEmpty(this.schema)) {
           // use schema
-          var t_config = this.schemaToConfig(newSchema);
+          var t_config = this.schemaToConfig(this.schema);
           this._handlingInProgress = true;
           this.config = t_config;
           this._handlingInProgress = false;
