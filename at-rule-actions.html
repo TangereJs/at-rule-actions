@@ -735,7 +735,7 @@ value = [
         Polymer.dom(actionHtml).classList.add('-ara-action');
 
         var leftFlexDiv = document.createElement('div');
-        Polymer.dom(leftFlexDiv).setAttribute('data-update-path', path);
+        Polymer.dom(actionHtml).setAttribute('data-update-path', path);
         Polymer.dom(leftFlexDiv).classList.add('left-flex-div')
         Polymer.dom(actionHtml).appendChild(leftFlexDiv);
 
@@ -751,7 +751,7 @@ value = [
           var target = event.target;
           var actionName = target.value;
           var actionConfig = _config[actionName];
-          var path = _container.getAttribute('data-update-path');
+          var path = _container.parentElement.getAttribute('data-update-path');
           var data = self.getDefaultValue(actionName, actionConfig);
           self.set(path, data, self.value);
 
