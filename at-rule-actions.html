@@ -1030,7 +1030,7 @@ value = [
         return fieldsSelect;
       },
       createSetFieldErrorHtml: function(htmlContainer, config, data, path) {
-        var textarea = document.createElement('at-form-textarea');
+        var textarea = document.createElement('at-form-text');
         Polymer.dom(textarea).setAttribute('data-update-path', this.createPath(path, 'errorMessage'));
         Polymer.dom(textarea).classList.add('-ara-errormessage');
         textarea.value = data.errorMessage;
