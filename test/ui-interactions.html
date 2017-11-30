@@ -1,0 +1,197 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8"/>
+    <title>at-rule-actions tests</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+    <link rel="import" href="../at-rule-actions.html"/>
+    <link rel="import" href="../../iron-test-helpers/iron-test-helpers.html"/>
+  </head>
+  <body>
+
+    <test-fixture id="propertyTests">
+      <template>
+        <at-rule-actions></at-rule-actions>
+      </template>
+    </test-fixture>
+
+    <script>
+      
+      suite('label interactions', function() {
+
+        test('changing label changes text in html', function() {
+          var elt = fixture('propertyTests');
+          assert.equal(elt.label, 'Do these actions...');
+          
+          var lElt = Polymer.dom(elt.root).querySelector('h4');
+          assert.equal(lElt.textContent, 'Do these actions...');
+
+          elt.label = "Lorem ipsum";
+          assert.equal(elt.label, 'Lorem ipsum');
+          assert.equal(lElt.textContent, 'Lorem ipsum');
+        });
+
+        test("hideLabel hides label but doesn't change text in html", function() {
+          var elt = fixture('propertyTests');
+          assert.equal(elt.hideLabel, false);
+
+          var lElt = Polymer.dom(elt.root).querySelector('h4');
+          assert.equal(lElt.textContent, 'Do these actions...');
+          assert.equal(lElt.hasAttribute('hidden'), false);
+
+          var displayValue = window.getComputedStyle(lElt).getPropertyValue('display');
+          assert.equal(displayValue, 'block');
+
+          elt.hideLabel = true;
+          assert.equal(elt.hideLabel, true);
+          assert.equal(lElt.hasAttribute('hidden'), true);
+
+          displayValue = window.getComputedStyle(lElt).getPropertyValue('display');
+          assert.equal(displayValue, 'none');
+
+          assert.equal(lElt.textContent, 'Do these actions...');
+
+          elt.hideLabel = false;
+          assert.equal(elt.hideLabel, false);
+          assert.equal(lElt.hasAttribute('hidden'), false);
+
+          displayValue = window.getComputedStyle(lElt).getPropertyValue('display');
+          assert.equal(displayValue, 'block');
+
+          assert.equal(lElt.textContent, 'Do these actions...');
+        });
+
+        test('disabled reduces opacity of label', function() {
+          var elt = fixture('propertyTests');
+          assert.equal(elt.disabled, false);
+          
+          var lElt = Polymer.dom(elt.root).querySelector('h4');
+          assert.equal(lElt.hasAttribute('disabled'), false);
+
+          // assert opacity value
+          var opacityValue = window.getComputedStyle(lElt).getPropertyValue('opacity');
+          assert.equal(opacityValue, '1');
+
+          elt.disabled = true;
+          assert.equal(elt.disabled, true);
+          assert.equal(lElt.hasAttribute('disabled'), true);
+
+          opacityValue = window.getComputedStyle(lElt).getPropertyValue('opacity');
+          assert.equal(opacityValue, '0.5');
+        });
+
+      });
+      
+      suite('schema, config and value interactions', function() {
+
+        test("empty properties doesn't create elements in html and doesn't update configuration", function() {
+          var schema = {
+            properties: {}
+          };
+
+          var elt = fixture('propertyTests');
+          elt.schema = schema;
+
+          var nodeCount = elt.$.actionsHtmlContainer.childNodes.length;
+          // first is container for actual actions
+          // second is add new button
+          assert.equal(nodeCount, 2);
+
+          var containerNode = elt.$.actionsHtmlContainer.childNodes[0];
+          assert.equal(containerNode.childNodes.length, 0);
+
+          assert.deepEqual(elt.config, {});
+        });
+
+        test("setting a full schema doesn't create elements but creates a valid configuration", function() {
+          var schema = {
+            properties: {
+              text1: {
+                type: 'string'
+              },
+              text2: {
+                type: 'string'
+              },
+              text3: {
+                type: 'string'
+              }
+            }
+          };
+
+          var expConfig = {
+            alert: {
+              label:"Show alert"
+            },
+            updateField: { 
+              label:"Update Field Value",
+              fields: [ 
+                { label:"Text1 to", name:"text1", updateTo:"text" },
+                { label:"Text2 to", name:"text2", updateTo:"text" },
+                { label:"Text3 to", name:"text3", updateTo:"text" }
+              ]
+            },
+            copyFieldValue: {
+              label:"Copy Field Value",
+              fields: [
+                { label:"Text1 to", name:"text1", copyTo:[{ label:"Text2", name:"text2" }, { label:"Text3", name:"text3" }] },
+                { label:"Text2 to", name:"text2", copyTo:[{ label:"Text1", name:"text1" }, { label:"Text3", name:"text3" }] },
+                { label:"Text3 to", name:"text3", copyTo:[{ label:"Text1", name:"text1" }, { label:"Text2", name:"text2" }] }
+              ]
+            },
+            setFieldState: {
+              label:"Set Field State", 
+              fields:[
+                { label:"Text1", name:"text1", states:[{label:"Optional", name:"optional"}, {label:"Required", name:"required"}, {label:"Hidden", name:"hidden"}, {label:"Disabled", name:"disabled"}] },
+                { label:"Text2", name:"text2", states:[{label:"Optional", name:"optional"}, {label:"Required", name:"required"}, {label:"Hidden", name:"hidden"}, {label:"Disabled", name:"disabled"}] },
+                { label:"Text3", name:"text3", states:[{label:"Optional", name:"optional"}, {label:"Required", name:"required"}, {label:"Hidden", name:"hidden"}, {label:"Disabled", name:"disabled"}] }
+              ]
+            },
+            setFieldError: {
+              label:"Set Field Error",
+              fields: [
+                {label:"Text1",name:"text1"},
+                {label:"Text2",name:"text2"},
+                {label:"Text3",name:"text3"}
+              ]
+            }
+          };
+
+          var elt = fixture('propertyTests');
+          elt.schema = schema;
+
+          var nodeCount = elt.$.actionsHtmlContainer.childNodes.length;
+          // first is container for actual actions
+          // second is add new button
+          assert.equal(nodeCount, 2);
+
+          var containerNode = elt.$.actionsHtmlContainer.childNodes[0];
+          assert.equal(containerNode.childNodes.length, 0);
+
+          // assert configuration value
+          var config = elt.config;
+
+          // config is an object with 5 keys
+          function isObject(obj) {
+            return Object.prototype.toString.apply(obj) === "[object Object]";
+          }
+          assert.equal(isObject(config), true);
+
+          var keyCount = Object.keys(config).length;
+          assert.equal(keyCount, 5);
+
+          assert.equal(isObject(config.alert), true);
+          assert.equal(isObject(config.updateField), true);
+          assert.equal(isObject(config.copyFieldValue), true);
+          assert.equal(isObject(config.setFieldError), true);
+          assert.equal(isObject(config.setFieldState), true);
+
+          assert.deepEqual(config, expConfig);
+
+        });
+
+      });
+    </script>
+  </body>
+</html>
