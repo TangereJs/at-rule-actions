@@ -85,8 +85,82 @@
       });
       
       suite('schema, config and value interactions', function() {
+        var schema = {
+          properties: {
+            text1: {
+              type: 'string'
+            },
+            text2: {
+              type: 'string'
+            },
+            text3: {
+              type: 'string'
+            }
+          }
+        };
 
-        test("empty properties doesn't create elements in html and doesn't update configuration", function() {
+        var expConfig = {
+          alert: {
+            label:"Show alert"
+          },
+          updateField: { 
+            label:"Update Field Value",
+            fields: [ 
+              { label:"Text1 to", name:"text1", updateTo:"text" },
+              { label:"Text2 to", name:"text2", updateTo:"text" },
+              { label:"Text3 to", name:"text3", updateTo:"text" }
+            ]
+          },
+          copyFieldValue: {
+            label:"Copy Field Value",
+            fields: [
+              { label:"Text1 to", name:"text1", copyTo:[{ label:"Text2", name:"text2" }, { label:"Text3", name:"text3" }] },
+              { label:"Text2 to", name:"text2", copyTo:[{ label:"Text1", name:"text1" }, { label:"Text3", name:"text3" }] },
+              { label:"Text3 to", name:"text3", copyTo:[{ label:"Text1", name:"text1" }, { label:"Text2", name:"text2" }] }
+            ]
+          },
+          setFieldState: {
+            label:"Set Field State", 
+            fields:[
+              { label:"Text1", name:"text1", states:[{label:"Optional", name:"optional"}, {label:"Required", name:"required"}, {label:"Hidden", name:"hidden"}, {label:"Disabled", name:"disabled"}] },
+              { label:"Text2", name:"text2", states:[{label:"Optional", name:"optional"}, {label:"Required", name:"required"}, {label:"Hidden", name:"hidden"}, {label:"Disabled", name:"disabled"}] },
+              { label:"Text3", name:"text3", states:[{label:"Optional", name:"optional"}, {label:"Required", name:"required"}, {label:"Hidden", name:"hidden"}, {label:"Disabled", name:"disabled"}] }
+            ]
+          },
+          setFieldError: {
+            label:"Set Field Error",
+            fields: [
+              {label:"Text1",name:"text1"},
+              {label:"Text2",name:"text2"},
+              {label:"Text3",name:"text3"}
+            ]
+          }
+        };
+
+        var value = [
+          {
+            actionName: "alert",
+            message: ""
+          },
+          {
+            actionName: "updateField",
+            fieldName: "text1",
+            updateTo: "text",
+            value: "lorem"
+          },
+          {
+            actionName: "alert",
+            message: ""
+          },
+          {
+            actionName: "updateField",
+            fieldName: "text2",
+            updateTo: "text",
+            value: "lorem"
+          }
+        ];
+
+        test("empty schema doesn't create elements in html and doesn't update configuration", function() {
           var schema = {
             properties: {}
           };
@@ -95,69 +169,12 @@
           elt.schema = schema;
 
           var nodeCount = elt.$.actionsHtmlContainer.childNodes.length;
-          // first is container for actual actions
-          // second is add new button
-          assert.equal(nodeCount, 2);
-
-          var containerNode = elt.$.actionsHtmlContainer.childNodes[0];
-          assert.equal(containerNode.childNodes.length, 0);
+          assert.equal(nodeCount, 0);
 
           assert.deepEqual(elt.config, {});
         });
 
-        test("setting a full schema doesn't create elements but creates a valid configuration", function() {
-          var schema = {
-            properties: {
-              text1: {
-                type: 'string'
-              },
-              text2: {
-                type: 'string'
-              },
-              text3: {
-                type: 'string'
-              }
-            }
-          };
-
-          var expConfig = {
-            alert: {
-              label:"Show alert"
-            },
-            updateField: { 
-              label:"Update Field Value",
-              fields: [ 
-                { label:"Text1 to", name:"text1", updateTo:"text" },
-                { label:"Text2 to", name:"text2", updateTo:"text" },
-                { label:"Text3 to", name:"text3", updateTo:"text" }
-              ]
-            },
-            copyFieldValue: {
-              label:"Copy Field Value",
-              fields: [
-                { label:"Text1 to", name:"text1", copyTo:[{ label:"Text2", name:"text2" }, { label:"Text3", name:"text3" }] },
-                { label:"Text2 to", name:"text2", copyTo:[{ label:"Text1", name:"text1" }, { label:"Text3", name:"text3" }] },
-                { label:"Text3 to", name:"text3", copyTo:[{ label:"Text1", name:"text1" }, { label:"Text2", name:"text2" }] }
-              ]
-            },
-            setFieldState: {
-              label:"Set Field State", 
-              fields:[
-                { label:"Text1", name:"text1", states:[{label:"Optional", name:"optional"}, {label:"Required", name:"required"}, {label:"Hidden", name:"hidden"}, {label:"Disabled", name:"disabled"}] },
-                { label:"Text2", name:"text2", states:[{label:"Optional", name:"optional"}, {label:"Required", name:"required"}, {label:"Hidden", name:"hidden"}, {label:"Disabled", name:"disabled"}] },
-                { label:"Text3", name:"text3", states:[{label:"Optional", name:"optional"}, {label:"Required", name:"required"}, {label:"Hidden", name:"hidden"}, {label:"Disabled", name:"disabled"}] }
-              ]
-            },
-            setFieldError: {
-              label:"Set Field Error",
-              fields: [
-                {label:"Text1",name:"text1"},
-                {label:"Text2",name:"text2"},
-                {label:"Text3",name:"text3"}
-              ]
-            }
-          };
-
+        test("setting a populated schema doesn't create elements but creates a valid configuration", function() {
           var elt = fixture('propertyTests');
           elt.schema = schema;
 
@@ -188,7 +205,34 @@
           assert.equal(isObject(config.setFieldState), true);
 
           assert.deepEqual(config, expConfig);
+        });
 
+        test("setting the value and not schema doesn't have an effect", function() {
+          var elt = fixture('propertyTests');
+          elt.value = value;
+
+          var nodeCount = elt.$.actionsHtmlContainer.childNodes.length;
+          assert.equal(nodeCount, 0);
+
+          assert.deepEqual(elt.config, {});
+        });
+
+        test('setting schema and value creates elements in html', function() {
+          var elt = fixture('propertyTests');
+
+          var nodeCount = elt.$.actionsHtmlContainer.childNodes.length;
+          assert.equal(nodeCount, 0);
+
+          elt.schema = schema;
+          elt.value = value;
+
+          assert.deepEqual(elt.config, expConfig);
+
+          nodeCount = elt.$.actionsHtmlContainer.childNodes.length;
+          assert.equal(nodeCount, 2);
+
+          containerNode = elt.$.actionsHtmlContainer.childNodes[0];
+          assert.equal(containerNode.childNodes.length, 4);
         });
 
       });

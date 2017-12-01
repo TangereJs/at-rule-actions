@@ -183,6 +183,41 @@ value = [
         });
       },
 
+      _isString: function(obj) {
+        return Object.prototype.toString.apply(obj) === "[object String]";
+      },
+
+      _isObject: function(obj) {
+        return Object.prototype.toString.apply(obj) === "[object Object]";
+      },
+
+      _checkConfigValid: function(param) {
+        return this._isObject(param);
+      },
+
+      _checkSchemaValid: function(param) {
+        if (!this._isObject(param)) { return false; }
+        if (!param.hasOwnProperty('properties')) { return false; }
+        if (!this._isObject(param.properties)) { return false; }
+        return true;
+      },
+
+      _isArray: function(obj) {
+        return Object.prototype.toString.apply(obj) === "[object Array]";
+      },
+
+      _checkValueValid: function(param) {
+        return this._isArray(param);
+      },
+
+      _isSchemaEmpty: function(param) {
+        return Object.keys(param.properties).length === 0;
+      },
+
+      _isConfigEmpty: function(obj) {
+        return Object.keys(obj).length === 0;
+      },
+
       _handleConfigSchemaValueChanged: function(newConfig, newSchema, newValue) {
         var config;
         var schema;
@@ -190,12 +225,8 @@ value = [
         
         if (!this._isReady || this._handlingInProgress) { return; }
                         
-        function isString(obj) {
-          return Object.prototype.toString.apply(obj) === "[object String]";
-        }
-
         // if newConfig is a string and a non-empty string
-        if (isString(newConfig) && newConfig !== "") {
+        if (this._isString(newConfig) && newConfig !== "") {
           try {
             // parse it and use that as config
             var parsedConfig = JSON.parse(newConfig);
@@ -212,7 +243,7 @@ value = [
         }
 
         // if newSchema is a non-empty string         
-        if (isString(newSchema) && newSchema !== "") {
+        if (this._isString(newSchema) && newSchema !== "") {
           try {
             // parse it and use that as schema
             var parsedSchema = JSON.parse(newSchema);            
@@ -228,7 +259,7 @@ value = [
 
         // if newValue is a non-empty string
         value = newValue;
-        if (isString(newValue)) {
+        if (this._isString(newValue)) {
           try {
             // parse it and use that as value
             var parsedValue = JSON.parse(newValue);
@@ -242,35 +273,9 @@ value = [
           }
         }
 
-        function isObject(obj) {
-          return Object.prototype.toString.apply(obj) === "[object Object]";
-        }
-
-        function checkConfigValid(param) {
-          return isObject(param);
-        }
-
-        function checkSchemaValid(param) {
-          if (!isObject(param)) { return false; }
-
-          if (!param.hasOwnProperty('properties')) { return false; }
-
-          if (!isObject(param.properties)) { return false; }
-
-          return true;
-        }
-
-        function isArray(obj) {
-          return Object.prototype.toString.apply(obj) === "[object Array]";
-        }
-
-        function checkValueValid(param) {
-          return isArray(param);
-        }
-
-        var isConfigValid = checkConfigValid(this.config);
-        var isSchemaValid = checkSchemaValid(this.schema);
-        var isValueValid = checkValueValid(this.value);
+        var isConfigValid = this._checkConfigValid(this.config);
+        var isSchemaValid = this._checkSchemaValid(this.schema);
+        var isValueValid = this._checkValueValid(this.value);
 
         if (!isValueValid) {
           this._handlingInProgress = true;
@@ -278,11 +283,7 @@ value = [
           this._handlingInProgress = false;
         }
 
-        function isSchemaEmpty(param) {
-          return Object.keys(param.properties).length === 0;
-        }
-
-        if (isSchemaValid && !isSchemaEmpty(this.schema)) {
+        if (isSchemaValid && !this._isSchemaEmpty(this.schema)) {
           // use schema
           var t_config = this.schemaToConfig(this.schema);
           this._handlingInProgress = true;
@@ -294,6 +295,9 @@ value = [
           this.config = this.properties.config.value();
           this._handlingInProgress = false;
         }
+
+        // if config is empty and value is set do not render because rendering will crash
+        if (this._isConfigEmpty(this.config)) return;
 
         Polymer.dom(this.$.actionsHtmlContainer).innerHTML = '';
         this.buildActionsHtml(this.$.actionsHtmlContainer, this.config, this.value);
