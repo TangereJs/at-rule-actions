@@ -5,38 +5,37 @@
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <title>at-rule-actions Demo</title>
 
-  <script src="../webcomponentsjs/webcomponents-lite.js"></script>
-  <link rel="import" href="at-rule-actions.html">
-  <link rel="import" href="../layout/layout.html">
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="../at-rule-actions.html">
+  <link rel="import" href="../../at-core-style-classes/at-core-style-classes.html" />
 
-  <style media="screen">
-    .textarea    {
+  <style is="custom-style" include="at-core-style-classes">
+    .textarea {
       width: 100%;
     }
+
     .padding {
       padding: 0 6px;
     }
+
   </style>
 </head>
 
 <body>
-  <div class="vertical layout">
-    <div class="vertical layout">
-      <h2>Actions Demo - json schema</h2>
-      <at-rule-actions id="afActions"></at-rule-actions>
-    </div>
+  <h2>Actions Demo - json schema</h2>
+  <at-rule-actions id="afActions"></at-rule-actions>
 
-    <div class="horizontal layout">
-      <div class="vertical layout flex-6 padding">
-          <h3>at-rule-actions value</h3>
-          <textarea class="textarea" id="actionsValueEcho" rows="30" cols="50"></textarea>
-      </div>
-      <div class="vertical layout flex-6 padding">
-          <h3>at-rule-actions schema</h3>
-          <textarea class="textarea" id="actionsSchema" rows="30" cols="50"></textarea>
-      </div>
+  <div class="layout-horizontal">
+    <div class="layout-flex-6 padding">
+      <h3>at-rule-actions value</h3>
+      <textarea class="textarea" id="actionsValueEcho" rows="30" cols="50"></textarea>
+    </div>
+    <div class="layout-flex-6 padding">
+      <h3>at-rule-actions schema</h3>
+      <textarea class="textarea" id="actionsSchema" rows="30" cols="50"></textarea>
     </div>
   </div>
+
   <script>
     document.addEventListener('WebComponentsReady', function() {
 
@@ -91,13 +90,13 @@
             "title": "Enum demo",
             "xvaluelist": [{
               title: "Value 1",
-              value:"value1"
+              value: "value1"
             }, {
               title: "Value 2",
-              value:"value2"
+              value: "value2"
             }, {
               title: "Value 3",
-              value:"value3"
+              value: "value3"
             }]
           },
           "lookupDemo": {
@@ -125,13 +124,13 @@
             "title": "Radio demo",
             "xvaluelist": [{
               title: "Value 1",
-              value:"value1"
+              value: "value1"
             }, {
               title: "Value 2",
-              value:"value2"
+              value: "value2"
             }, {
               title: "Value 3",
-              value:"value3"
+              value: "value3"
             }]
           },
           "sectionDemo": {
@@ -151,78 +150,78 @@
       };
 
       var jsonValue = [{
-          actionName: 'updateField',
-          fieldName: "checkboxDemo",
-          updateTo: true
-        }, {
-          actionName: 'updateField',
-          fieldName: "toggleDemo",
-          updateTo: true
-        }, {
-          actionName: 'updateField',
-          fieldName: "codeDemo",
-          updateTo: "lorem ipsum"
-        }, {
-          actionName: 'updateField',
-          fieldName: "dateDemo",
-          updateTo: ""
-        }, {
-          actionName: 'updateField',
-          fieldName: "timeDemo",
-          updateTo: ""
-        }, {
-          actionName: 'updateField',
-          fieldName: "dateAndTimeDemo",
-          updateTo: ""
-        }, {
-          actionName: 'updateField',
-          fieldName: "daterangeDemo",
-          updateTo: ""
-        }, {
-          actionName: 'updateField',
-          fieldName: "fileDemo",
-          updateTo: ""
-        }, {
-          actionName: 'updateField',
-          fieldName: "imageDemo",
-          updateTo: ""
-        }, {
-          actionName: 'updateField',
-          fieldName: "enumDemo",
-          updateTo: "value2"
-        }, {
-          actionName: 'updateField',
-          fieldName: "lookupDemo",
-          updateTo: ""
-        }, {
-          actionName: 'updateField',
-          fieldName: "markdownDemo",
-          updateTo: "lorem ipsum"
-        }, {
-          actionName: 'updateField',
-          fieldName: "numberDemo",
-          updateTo: "42"
-        }, {
-          actionName: 'updateField',
-          fieldName: "passwordDemo",
-          updateTo: "password"
-        }, {
-          actionName: 'updateField',
-          fieldName: "radioDemo",
-          updateTo: "value3"
-        }, {
-          actionName: 'updateField',
-          fieldName: "sectionDemo",
-          updateTo: "lorem ipsum"
-        }, {
-          actionName: 'updateField',
-          fieldName: "textDemo",
-          updateTo: "lorem ipsum"
-        }, {
-          actionName: 'updateField',
-          fieldName: "textareaDemo",
-          updateTo: "lorem ipsum"
-        }];
+        actionName: 'updateField',
+        fieldName: "checkboxDemo",
+        updateTo: true
+      }, {
+        actionName: 'updateField',
+        fieldName: "toggleDemo",
+        updateTo: true
+      }, {
+        actionName: 'updateField',
+        fieldName: "codeDemo",
+        updateTo: "lorem ipsum"
+      }, {
+        actionName: 'updateField',
+        fieldName: "dateDemo",
+        updateTo: ""
+      }, {
+        actionName: 'updateField',
+        fieldName: "timeDemo",
+        updateTo: ""
+      }, {
+        actionName: 'updateField',
+        fieldName: "dateAndTimeDemo",
+        updateTo: ""
+      }, {
+        actionName: 'updateField',
+        fieldName: "daterangeDemo",
+        updateTo: ""
+      }, {
+        actionName: 'updateField',
+        fieldName: "fileDemo",
+        updateTo: ""
+      }, {
+        actionName: 'updateField',
+        fieldName: "imageDemo",
+        updateTo: ""
+      }, {
+        actionName: 'updateField',
+        fieldName: "enumDemo",
+        updateTo: "value2"
+      }, {
+        actionName: 'updateField',
+        fieldName: "lookupDemo",
+        updateTo: ""
+      }, {
+        actionName: 'updateField',
+        fieldName: "markdownDemo",
+        updateTo: "lorem ipsum"
+      }, {
+        actionName: 'updateField',
+        fieldName: "numberDemo",
+        updateTo: "42"
+      }, {
+        actionName: 'updateField',
+        fieldName: "passwordDemo",
+        updateTo: "password"
+      }, {
+        actionName: 'updateField',
+        fieldName: "radioDemo",
+        updateTo: "value3"
+      }, {
+        actionName: 'updateField',
+        fieldName: "sectionDemo",
+        updateTo: "lorem ipsum"
+      }, {
+        actionName: 'updateField',
+        fieldName: "textDemo",
+        updateTo: "lorem ipsum"
+      }, {
+        actionName: 'updateField',
+        fieldName: "textareaDemo",
+        updateTo: "lorem ipsum"
+      }];
 
       var actionsValueEcho = document.getElementById('actionsValueEcho');
       var afActions = document.getElementById('afActions');
@@ -253,6 +252,7 @@
         afActions.schema = schema;
       });
     });
+
   </script>
 </body>
 

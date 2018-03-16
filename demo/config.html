@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <title>at-rule-actions Demo</title>
 
-  <script src="../webcomponentsjs/webcomponents-lite.js"></script>
-  <link rel="import" href="at-rule-actions.html">
-  <link rel="import" href="../layout/layout.html">
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="../at-rule-actions.html">
+  <link rel="import" href="../../at-core-style-classes/at-core-style-classes.html" />
 
-  <style media="screen">
+  <style is="custom-style" include="at-core-style-classes">
     .textarea {
       min-height: 300px;
       height: 100%;
@@ -19,40 +19,39 @@
 </head>
 
 <body>
-  <div class="vertical layout">
-    <div class="horizontal layout">
-      <div class="vertical layout flex-8">
-        <h2>Actions Demo - static schema</h2>
-        <at-rule-actions id="afActions1"></at-rule-actions>
-      </div>
-      <div class="vertical layout flex-4">
-        <h3>Actions value echo:</h3>
-        <textarea disabled class="textarea" id="actionsValueEcho1"></textarea>
-      </div>
+  <div class="layout-horizontal">
+    <div class="layout-flex-8">
+      <h2>Actions Demo - static schema</h2>
+      <at-rule-actions id="afActions1"></at-rule-actions>
     </div>
-
-    <div class="horizontal layout">
-      <div class="vertical layout flex-8">
-        <h2>Actions Demo - json schema</h2>
-        <at-rule-actions id="afActions2"></at-rule-actions>
-      </div>
-      <div class="vertical layout flex-4">
-        <h3>Actions value echo:</h3>
-        <textarea class="textarea" disabled id="actionsValueEcho2"></textarea>
-      </div>
+    <div class="layout-flex-4">
+      <h3>Actions value echo:</h3>
+      <textarea disabled class="textarea" id="actionsValueEcho1"></textarea>
     </div>
-    <div class="horizontal layout">
-      <div class="vertical layout flex-8">
-        <h2>Actions Demo - static schema disabled</h2>
-        <at-rule-actions id="afActions3" disabled></at-rule-actions>
-      </div>
-      <div class="vertical layout flex-4">
-        <h3>Actions value echo:</h3>
-        <textarea class="textarea" disabled id="actionsValueEcho3"></textarea>
-      </div>
-    </div>
-
   </div>
+
+  <div class="layout-horizontal">
+    <div class="layout-flex-8">
+      <h2>Actions Demo - json schema</h2>
+      <at-rule-actions id="afActions2"></at-rule-actions>
+    </div>
+    <div class="layout-flex-4">
+      <h3>Actions value echo:</h3>
+      <textarea class="textarea" disabled id="actionsValueEcho2"></textarea>
+    </div>
+  </div>
+
+  <div class="layout-horizontal">
+    <div class="layout-flex-8">
+      <h2>Actions Demo - static schema disabled</h2>
+      <at-rule-actions id="afActions3" disabled></at-rule-actions>
+    </div>
+    <div class="layout-flex-4">
+      <h3>Actions value echo:</h3>
+      <textarea class="textarea" disabled id="actionsValueEcho3"></textarea>
+    </div>
+  </div>
+
   <script>
     document.addEventListener('WebComponentsReady', function() {
 

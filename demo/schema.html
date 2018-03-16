@@ -5,14 +5,15 @@
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <title>at-rule-actions Demo</title>
 
-  <script src="../webcomponentsjs/webcomponents-lite.js"></script>
-  <link rel="import" href="at-rule-actions.html">
-  <link rel="import" href="../iron-flex-layout/iron-flex-layout.html" />
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="../at-rule-actions.html">
+  <link rel="import" href="../../at-core-style-classes/at-core-style-classes.html" />
 
-  <style is="custom-style" media="screen">
-    .textarea    {
+  <style is="custom-style" include="at-core-style-classes">
+    .textarea {
       width: 100%;
     }
+
     .padding {
       padding: 0 6px;
     }
@@ -22,30 +23,28 @@
       @apply(--layout-center-justified);
       margin: 0 0 10px 0;
     }
+
   </style>
 </head>
 
 <body>
-  <div class="vertical layout">
-    <div class="vertical layout">
-      <div class="toolbox-container">
-        <button onclick="toggleDisable()">Toggle Disable</button>
-        <button onclick="toggleHideLabel()">Toggle hideLabel</button>
-      </div>
-      <at-rule-actions id="afActions" label="Actions Demo - json schema"></at-rule-actions>
-    </div>
+  <div class="toolbox-container">
+    <button onclick="toggleDisable()">Toggle Disable</button>
+    <button onclick="toggleHideLabel()">Toggle hideLabel</button>
+  </div>
+  <at-rule-actions id="afActions" label="Actions Demo - json schema"></at-rule-actions>
 
-    <div class="horizontal layout">
-      <div class="vertical layout flex-6 padding">
-          <h3>at-rule-actions value</h3>
-          <textarea class="textarea" id="actionsValueEcho" rows="30" cols="50"></textarea>
-      </div>
-      <div class="vertical layout flex-6 padding">
-          <h3>at-rule-actions schema</h3>
-          <textarea class="textarea" id="actionsSchema" rows="30" cols="50"></textarea>
-      </div>
+  <div class="layout-horizontal">
+    <div class="layout-flex-6 padding">
+      <h3>at-rule-actions value</h3>
+      <textarea class="textarea" id="actionsValueEcho" rows="30" cols="50"></textarea>
+    </div>
+    <div class="layout-flex-6 padding">
+      <h3>at-rule-actions schema</h3>
+      <textarea class="textarea" id="actionsSchema" rows="30" cols="50"></textarea>
     </div>
   </div>
+
   <script>
     document.addEventListener('WebComponentsReady', function() {
 
@@ -89,8 +88,7 @@
         "required": ["id", "city"]
       };
 
-      var jsonValue = [
-        {
+      var jsonValue = [{
           actionName: 'alert',
           message: "Type your message here..."
         },
@@ -150,6 +148,7 @@
       var afActions = document.getElementById('afActions');
       afActions.hideLabel = !afActions.hideLabel;
     }
+
   </script>
 </body>
 
