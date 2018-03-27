@@ -157,7 +157,7 @@ value = [
             return [];
           }
         }
-        
+
       },
 
       observers: [ '_handleConfigSchemaValueChanged(config, schema, value)' ],
@@ -222,9 +222,9 @@ value = [
         var config;
         var schema;
         var value;
-        
+
         if (!this._isReady || this._handlingInProgress) { return; }
-                        
+
         // if newConfig is a string and a non-empty string
         if (this._isString(newConfig) && newConfig !== "") {
           try {
@@ -242,11 +242,11 @@ value = [
           }
         }
 
-        // if newSchema is a non-empty string         
+        // if newSchema is a non-empty string
         if (this._isString(newSchema) && newSchema !== "") {
           try {
             // parse it and use that as schema
-            var parsedSchema = JSON.parse(newSchema);            
+            var parsedSchema = JSON.parse(newSchema);
             this._handlingInProgress = true;
             this.schema = parsedSchema;
             this._handlingInProgress = false;
@@ -323,10 +323,10 @@ value = [
 
         var classNames = [ '.-ara-action-select', '.-ara-message', '.-ara-field-name', '.-ara-update-to', '.-ara-copy-to', '.-ara-state',  '.-ara-errormessage', '.span-text', 'at-carbon-icon-button' ];
 
-        classNames.forEach(function (className, index) { 
+        classNames.forEach(function (className, index) {
           tmp = Polymer.dom(container).querySelectorAll(className);
-          
-          tmp.forEach(function(element, index) { 
+
+          tmp.forEach(function(element, index) {
             element.disabled = newValue;
 
             if (className === ".span-text") {
@@ -717,7 +717,7 @@ value = [
         Polymer.dom(buttonContainer).classList.add('-ara-action-buttons');
         // create the add action button
         var addActionButton = document.createElement('at-carbon-icon-button');
-        addActionButton.icon = "now:plus";        
+        addActionButton.icon = "now:plus";
         Polymer.dom(buttonContainer).appendChild(addActionButton);
 
         addActionButton.addEventListener('click', function(event) {
@@ -822,7 +822,7 @@ value = [
         var actionName, actionConfig, actionLabel, selectOption;
         var xvaluelist = [];
         for (actionName in config) {
-          actionConfig = config[actionName];          
+          actionConfig = config[actionName];
           xvaluelist.push({ title: actionConfig.label, value: actionName });
         }
         select.xvaluelist = xvaluelist;
@@ -932,11 +932,11 @@ value = [
               htmlElem.xvaluelist = propDef.xvaluelist;
               break;
             case "random":
-              var htmlElem = document.createElement('at-form-random');              
+              var htmlElem = document.createElement('at-form-random');
               break;
             case "cron":
-              var htmlElem = document.createElement('at-form-cron');              
-              break;              
+              var htmlElem = document.createElement('at-form-cron');
+              break;
           }
           Polymer.dom(htmlElem).classList.add('-ara-update-to');
           Polymer.dom(htmlElem).classList.add('inline-element');
@@ -1063,8 +1063,8 @@ value = [
         var value = target.value;
 
         this.set(updatePath, value, this.value);
-        this.fire('value-changed', 
-          { value: this.value }, 
+        this.fire('value-changed',
+          { value: this.value },
           { bubbles: false}
         );
       },
